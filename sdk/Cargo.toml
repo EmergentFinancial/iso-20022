@@ -1,0 +1,105 @@
+[package]
+name = "iso-20022-sdk"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/emergentfinancial/iso20022"
+authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
+license = "MIT OR APACHE-2.0"
+keywords = ["iso20022", "Universal financial industry message scheme"]
+
+[features]
+default = ["msg"]
+msg = ["nvlp", "head", "crypto"]
+## Cryptographic Signatures
+crypto = ["dsig", "p256", "signature"]
+## Business Domains
+payments = ["acmt", "auth", "acmt", "admi", "camt", "pacs", "pain", "reda", "remt"]
+securities = ["auth", "acmt", "admi", "camt", "colr", "reda", "semt", "sese", "setr", "seev"]
+trade = ["auth", "tsin", "tsrv", "tsmt"]
+cards = ["caaa", "caam", "catp", "caad", "cafc", "cafm", "cafr", "cain", "canm", "catm", "casp", "casr"]
+fx = ["admi", "camt", "fxtr", "reda"]
+## Pre-requisites
+nvlp = ["iso-20022-nvlp"]
+head = ["iso-20022-head"]
+dsig = ["iso-20022-dsig"]
+## Message Sets
+acmt = ["iso-20022-acmt"]
+admi = ["iso-20022-admi"]
+auth = ["iso-20022-auth"]
+caaa = ["iso-20022-caaa"]
+caad = ["iso-20022-caad"]
+caam = ["iso-20022-caam"]
+cafc = ["iso-20022-cafc"]
+cafm = ["iso-20022-cafm"]
+cafr = ["iso-20022-cafr"]
+cain = ["iso-20022-cain"]
+camt = ["iso-20022-camt"]
+canm = ["iso-20022-canm"]
+casp = ["iso-20022-casp"]
+casr = ["iso-20022-casr"]
+catm = ["iso-20022-catm"]
+catp = ["iso-20022-catp"]
+colr = ["iso-20022-colr"]
+fxtr = ["iso-20022-fxtr"]
+pacs = ["iso-20022-pacs"]
+pain = ["iso-20022-pain"]
+reda = ["iso-20022-reda"]
+remt = ["iso-20022-remt"]
+secl = ["iso-20022-secl"]
+seev = ["iso-20022-seev"]
+semt = ["iso-20022-semt"]
+sese = ["iso-20022-sese"]
+setr = ["iso-20022-setr"]
+tsin = ["iso-20022-tsin"]
+tsmt = ["iso-20022-tsmt"]
+tsrv = ["iso-20022-tsrv"]
+
+[dependencies]
+iso-20022-nvlp = { path = "../nvlp", optional = true }
+iso-20022-head = { path = "../head", optional = true }
+iso-20022-dsig = { path = "../dsig", optional = true }
+iso-20022-acmt = { path = "../acmt", optional = true }
+iso-20022-admi = { path = "../admi", optional = true }
+iso-20022-auth = { path = "../auth", optional = true }
+iso-20022-caaa = { path = "../caaa", optional = true }
+iso-20022-caad = { path = "../caad", optional = true }
+iso-20022-caam = { path = "../caam", optional = true }
+iso-20022-cafc = { path = "../cafc", optional = true }
+iso-20022-cafm = { path = "../cafm", optional = true }
+iso-20022-cafr = { path = "../cafr", optional = true }
+iso-20022-cain = { path = "../cain", optional = true }
+iso-20022-camt = { path = "../camt", optional = true }
+iso-20022-canm = { path = "../canm", optional = true }
+iso-20022-casp = { path = "../casp", optional = true }
+iso-20022-casr = { path = "../casr", optional = true }
+iso-20022-catm = { path = "../catm", optional = true }
+iso-20022-catp = { path = "../catp", optional = true }
+iso-20022-colr = { path = "../colr", optional = true }
+iso-20022-fxtr = { path = "../fxtr", optional = true }
+iso-20022-pacs = { path = "../pacs", optional = true }
+iso-20022-pain = { path = "../pain", optional = true }
+iso-20022-reda = { path = "../reda", optional = true }
+iso-20022-remt = { path = "../remt", optional = true }
+iso-20022-secl = { path = "../secl", optional = true }
+iso-20022-seev = { path = "../seev", optional = true }
+iso-20022-semt = { path = "../semt", optional = true }
+iso-20022-sese = { path = "../sese", optional = true }
+iso-20022-setr = { path = "../setr", optional = true }
+iso-20022-tsin = { path = "../tsin", optional = true }
+iso-20022-tsmt = { path = "../tsmt", optional = true }
+iso-20022-tsrv = { path = "../tsrv", optional = true }
+chrono = { version = "0.4.24", features = ["serde"] }
+derive_builder = "0.12.0"
+lazy_static = "1.4.0"
+p256 = { version = "0.13.1", optional = true }
+regex = "1.7.3"
+serde = { version = "1.0.159", features = ["derive"] }
+validator = { version = "0.16.0", features = ["derive"] }
+xml-rs = "0.8.4"
+quick-xml = { version = "0.28.1", features = ["serialize"] }
+format_xml = "0.3.0"
+thiserror = "1.0.40"
+sxd-xpath = "0.4.2"
+sxd-document = "0.3.2"
+signature = { version = "2.1.0", optional = true }
+

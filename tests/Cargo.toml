@@ -1,0 +1,11 @@
+[package]
+name = "iso-20022-tests"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/emergentfinancial/iso20022"
+authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
+license = "MIT OR APACHE-2.0"
+
+[dependencies]
+iso-20022-head = { path = "../head" }
+iso-20022-dsig = { path = "../dsig" }

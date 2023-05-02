@@ -1,0 +1,9 @@
+[book]
+authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
+language = "en"
+multilingual = false
+src = "src"
+title = "ISO-20022-SDK User Guide"
+
+[preprocessor.plantuml]
+plantuml-cmd="plantuml -txt"

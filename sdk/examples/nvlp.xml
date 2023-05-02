@@ -1,0 +1,44 @@
+<?xml-model href="../../schema/nvlp/nvlp.001.001.01.xsd"?>
+<BizMsgEnvlp xmlns="urn:iso:std:iso:20022:tech:xsd:nvlp.001.001.01">
+    <Hdr>
+        <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.03">
+            <Fr />
+            <To />
+            <BizMsgIdr>12345</BizMsgIdr>
+            <MsgDefIdr>12345</MsgDefIdr>
+            <CreDt>2023-04-18T17:02:14.745635Z</CreDt>
+        </AppHdr>
+    </Hdr>
+    <Doc>
+        <TestPayload>Hello, World!</TestPayload>
+    </Doc>
+    <Ref>
+        <Nm>12345</Nm>
+        <Issr>
+            <Nm>Name</Nm>
+        </Issr>
+        <Val>
+            <UUID>9523706d-9616-430b-85df-394b9ac05097</UUID>
+        </Val>
+        <SplmtryData>
+            <Envlp>
+                <TestPayload>Hello, World!</TestPayload>
+            </Envlp>
+        </SplmtryData>
+        <SplmtryData>
+            <Envlp>
+                <TestPayload>Hello, World!</TestPayload>
+            </Envlp>
+        </SplmtryData>
+    </Ref>
+    <SplmtryData>
+        <Envlp>
+            <TestPayload>Hello, World!</TestPayload>
+        </Envlp>
+    </SplmtryData>
+    <SplmtryData>
+        <Envlp>
+            <TestPayload>Hello, World!</TestPayload>
+        </Envlp>
+    </SplmtryData>
+</BizMsgEnvlp>

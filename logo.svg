@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <text x="120" y="460" text-anchor="middle" font-size="500" font-weight="900">/
+  <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite"/>
+  </text>
+  <text x="200" y="300" font-size="180">Emergent
+    <animate
+        attributeName="fill"
+        values="#000;#fff;#000"
+        dur="40s"
+        repeatCount="indefinite"/>
+  </text>
+  <text x="200" y="450" font-size="180">Financial
+    <animate
+        attributeName="fill"
+        values="#000;#fff;#000"
+        dur="60s"
+        repeatCount="indefinite"/>
+  </text>
+</svg>
