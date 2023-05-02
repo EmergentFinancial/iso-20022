@@ -2,7 +2,7 @@
 name = "iso-20022-tsrv"
 version = "0.1.0"
 edition = "2021"
-repository = "https://github.com/emergentfinancial/iso20022"
+repository = "https://github.com/emergentfinancial/iso-20022"
 authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
 license = "MIT OR APACHE-2.0"
 keywords = ["iso20022", "Universal financial industry message scheme"]

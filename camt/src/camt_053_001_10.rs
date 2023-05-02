@@ -5768,7 +5768,7 @@ pub enum TransactionEnvironment1Code {
     #[serde(rename = "MERC")]
     Merc,
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[serde(rename = "PUBL")]
     Publ,
     #[default]

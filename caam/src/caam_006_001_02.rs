@@ -483,7 +483,7 @@ pub struct Recipient5Choice {
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 pub enum TransactionEnvironment2Code {
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[serde(rename = "PUBL")]
     Publ,
     #[default]

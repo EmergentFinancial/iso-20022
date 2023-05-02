@@ -1719,7 +1719,7 @@ pub enum CardIdentificationType1Code {
     #[serde(rename = "CPAN")]
     Cpan,
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[serde(rename = "UUID")]
     Uuid,
     #[default]
@@ -2431,7 +2431,7 @@ pub enum TransactionEnvironment1Code {
     #[serde(rename = "MERC")]
     Merc,
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[serde(rename = "PUBL")]
     Publ,
     #[default]

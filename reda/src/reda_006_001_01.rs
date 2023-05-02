@@ -1558,7 +1558,7 @@ pub enum LegalRestrictions2Code {
     #[serde(rename = "MARG")]
     Marg,
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[default]
     Unknown,
 }

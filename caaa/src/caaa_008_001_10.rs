@@ -1858,7 +1858,7 @@ pub enum CardIdentificationType1Code {
     #[serde(rename = "CPAN")]
     Cpan,
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[serde(rename = "UUID")]
     Uuid,
     #[default]

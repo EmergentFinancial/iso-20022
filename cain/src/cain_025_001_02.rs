@@ -3762,7 +3762,7 @@ pub enum LoyaltyValueType1Code {
     #[serde(rename = "POIN")]
     Poin,
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[default]
     Unknown,
 }

@@ -5405,7 +5405,7 @@ pub enum OrganisationType1Code {
     #[serde(rename = "IFUN")]
     Ifun,
     #[serde(rename = "PRIV")]
-    r#priv,
+    Priv,
     #[serde(rename = "PUBL")]
     Publ,
     #[serde(rename = "PFUN")]

@@ -1,9 +1,5 @@
 [workspace]
 members = [
-    "builder",
-    "sdk",
-]
-exclude = [
 "acmt",
 "admi",
 "auth",
@@ -23,12 +19,13 @@ exclude = [
 "colr",
 "dsig",
 "fxtr",
-"head",
 "nvlp",
+"head",
 "pacs",
 "pain",
 "reda",
 "remt",
+"sdk",
 "secl",
 "seev",
 "semt",
