@@ -1,0 +1,58 @@
+name: User Guide
+
+on:
+  push:
+    branches:
+      - main
+    pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v2
+
+      # Install plantuml
+      - name: Install plantuml
+        run: sudo apt-get install -y plantuml 
+
+      # Install Rust
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+      
+      # Set up cargo cache
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/            
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+      
+      # Install mdbook & mdbook-plantuml
+      - run: cargo install mdbook mdbook-plantuml
+
+      # Build User Guide
+      - name: Build User Guide
+        run: cd guide && mdbook build
+
+      # Deploy to gh-pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./guide/book
