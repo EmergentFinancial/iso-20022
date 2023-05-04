@@ -13,11 +13,11 @@ iso-20022-sdk = { version = "0.1.0" }
 ```
 
 > #
-> Read the [ISO 20022 SDK Book]() for usage examples and more information.
+> Read the [ISO® 20022 SDK Book]() for usage examples and more information.
 > #
 
 > #
-> Need ISO-20022 Integrations? [Contact us](mailto:ryan.tate@emergent.financial) to learn about our services.
+> Need ISO® 20022 Integrations? [Contact us](mailto:ryan.tate@emergent.financial) to learn about our services.
 > #
 
 ## Features
