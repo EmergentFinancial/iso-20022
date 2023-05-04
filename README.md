@@ -1,3 +1,5 @@
+<img src="./logo.svg" height="300" />
+
 # ISO 20022 Software Developer Kit (SDK)
 
 The `iso-20022-sdk` is a Rust library for working with ISO 20022 messages.
