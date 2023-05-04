@@ -1,6 +1,6 @@
 <img src="./logo.svg" height="300" />
 
-# ISO 20022 Software Developer Kit (SDK)
+# ISO® 20022 Software Developer Kit (SDK)
 
 The `iso-20022-sdk` is a Rust library for working with ISO 20022 messages.
 
@@ -147,3 +147,12 @@ iso-20022-sdk = { version = "0.1.0", features = ["acmt", "admi"] }
 ### Trade Services Initiation - [`tsin`](./tsin/)
 ### Trade Services Management - [`tsmt`](./tsmt/)
 ### Trade Services - [`tsrv`](./tsrv/) -->
+
+---
+### DISCLAIMER
+
+Emergent Financial, LLC and iso-20022-sdk are separate entities from the ISO 20022 Registration Authority. The ISO 20022 Registration Authority is responsible for managing and maintaining the ISO 20022 standard, whereas Emergent Financial, LLC and iso-20022-sdk are not affiliated with this organization and do not represent it in any way.
+
+Furthermore, please note that iso-20022-sdk is provided as-is without any warranty of any kind, either express or implied. Emergent Financial, LLC and iso-20022-sdk do not make any guarantees regarding the accuracy, completeness, or reliability of the information contained in iso-20022-sdk, nor do they assume any liability for any damages or losses that may arise from the use of this software.
+
+It is recommended that users exercise caution when using iso-20022-sdk and conduct their own independent research to assess its suitability for their particular purposes. Emergent Financial, LLC and iso-20022-sdk shall not be held liable for any direct, indirect, incidental, consequential, or other damages arising from the use of iso-20022-sdk or any other software provided by Emergent Financial, LLC.
