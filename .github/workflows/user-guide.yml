@@ -1,6 +1,7 @@
 name: User Guide
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,10 +15,6 @@ jobs:
     steps:
       # Checkout the repository
       - uses: actions/checkout@v2
-
-      # Install plantuml
-      - name: Install plantuml
-        run: sudo apt-get install -y plantuml 
 
       # Install Rust
       - name: Install Rust
@@ -38,12 +35,21 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            target/            
+            target/
+            /usr/bin/plantuml
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
       
-      # Install mdbook & mdbook-plantuml
-      - run: cargo install mdbook mdbook-plantuml --force
+      # Install plantuml, mdbook & mdbook-plantuml
+      - run: |
+        if [[ $(which mdbook) ]]; then
+            echo "mdbook is already installed, skipping..."
+        else
+            echo "Installing mdbook"
+            sudo apt-get install -y plantuml 
+            cargo install mdbook mdbook-plantuml
+        fi
+        
 
       # Build User Guide
       - name: Build User Guide
