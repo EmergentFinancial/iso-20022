@@ -1,0 +1,321 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+
+  <text fill="white">
+    <tspan x="0" y="200" font-size="300">/ <animate
+        attributeName="fill"
+        values="#000;#fff;#000"
+        dur="12s"
+        repeatCount="indefinite" />
+    </tspan>
+    <tspan x="80" y="50" font-size="50">Build <animate
+        attributeName="fill"
+        values="#000;#fff;#000"
+        dur="8s"
+        repeatCount="indefinite" />
+    </tspan>
+    <tspan x="80" y="100" font-size="50">Real-Time <animate
+        attributeName="fill"
+        values="#000;#fff;#000"
+        dur="12s"
+        repeatCount="indefinite" />
+    </tspan>
+    <tspan x="80" y="150" font-size="50">Financial <animate
+        attributeName="fill"
+        values="#000;#fff;#000"
+        dur="24s"
+        repeatCount="indefinite" />
+    </tspan>
+    <tspan x="80" y="200" font-size="50">Networks <animate
+        attributeName="fill"
+        values="#000;#fff;#000"
+        dur="48s"
+        repeatCount="indefinite" />
+    </tspan>
+  </text>
+
+  <line x1="50" y1="500" x2="500" y2="500" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+
+  <line x1="500" y1="500" x2="500" y2="250" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+  <line x1="500" y1="500" x2="500" y2="750" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+  <line x1="500" y1="500" x2="350" y2="650" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+  <line x1="500" y1="500" x2="350" y2="350" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+  <line x1="500" y1="500" x2="650" y2="650" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+  <line x1="500" y1="500" x2="650" y2="350" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+  <line x1="500" y1="500" x2="950" y2="500" stroke-width="1" stroke="white">
+    <animate
+      attributeName="stroke"
+      values="#000;#fff;#000"
+      dur="20s"
+      repeatCount="indefinite" />
+  </line>
+
+
+  <!-- Node 1 -->
+  <rect x="50" y="475" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 2 -->
+  <rect x="475" y="475" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 3 -->
+  <rect x="475" y="200" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 4 -->
+  <rect x="475" y="750" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 5 -->
+  <rect x="300" y="650" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 6 -->
+  <rect x="300" y="300" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 7 -->
+  <rect x="650" y="650" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 8 -->
+  <rect x="650" y="300" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+  <!-- Node 9 -->
+  <rect x="900" y="475" width="50" height="50" fill="white">
+    <animate
+      attributeName="fill"
+      values="#000;#fff;#000"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+
+  <!-- Unverified Assets -->
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="1.0s"
+      repeatCount="indefinite"
+      path="M75,500 500,500" />
+  </circle>
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="1.5s"
+      repeatCount="indefinite"
+      path="M500,500 500,225" />
+  </circle>
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="1.6s"
+      repeatCount="indefinite"
+      path="M500,500 500,775" />
+  </circle>
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="1.7s"
+      repeatCount="indefinite"
+      path="M500,500 325,675" />
+  </circle>
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="1.8s"
+      repeatCount="indefinite"
+      path="M500,500 325,675" />
+  </circle>
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="1.9s"
+      repeatCount="indefinite"
+      path="M500,500 325,325" />
+  </circle>
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="2s"
+      repeatCount="indefinite"
+      path="M500,500 675,325" />
+  </circle>
+
+  <circle r="5" fill="red">
+    <animateMotion
+      dur="1.5s"
+      repeatCount="indefinite"
+      path="M500,500 675,675" />
+  </circle>
+
+  <!-- Verified Assets -->
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.5s"
+      repeatCount="indefinite"
+      path="M500,225 500,500 " />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.6s"
+      repeatCount="indefinite"
+      path="M500,775 500,500 " />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.7s"
+      repeatCount="indefinite"
+      path="M325,675 500,500 " />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.8s"
+      repeatCount="indefinite"
+      path="M325,675 500,500 " />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.9s"
+      repeatCount="indefinite"
+      path="M325,325 500,500 " />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="2s"
+      repeatCount="indefinite"
+      path="M675,325 500,500 " />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.5s"
+      repeatCount="indefinite"
+      path="M675,675 500,500 " />
+  </circle>
+
+  <!-- Forward Verified to recipient -->
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.5s"
+      repeatCount="indefinite"
+      path="M500,500 925,500" />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.6s"
+      repeatCount="indefinite"
+      path="M500,500 925,500" />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.7s"
+      repeatCount="indefinite"
+      path="M500,500 925,500" />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.8s"
+      repeatCount="indefinite"
+      path="M500,500 925,500" />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="1.9s"
+      repeatCount="indefinite"
+      path="M500,500 925,500" />
+  </circle>
+
+  <circle r="5" fill="green">
+    <animateMotion
+      dur="2.0s"
+      repeatCount="indefinite"
+      path="M500,500 925,500" />
+  </circle>
+
+</svg>
