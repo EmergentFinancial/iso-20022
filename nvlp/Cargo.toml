@@ -3,14 +3,14 @@ name = "iso-20022-nvlp"
 version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/emergentfinancial/iso-20022"
-description = "ISO 20022 Rust SDK"
+description = "ISO 20022 Universal Financial Industry Message Scheme Rust SDK"
 authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
 homepage = "https://emergentfinancial.github.io/iso-20022"
 documentation = "https://docs.rs/iso-20022-sdk"
 readme = "../README.md"
 license-file = "../LICENSE.md"
 categories = ["finance"]
-keywords = ["ISO 20022", "Universal financial industry message scheme"]
+keywords = ["ISO", "20022"]
 
 [dependencies]
 chrono = { version = "0.4.24", features = ["serde"] }
