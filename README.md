@@ -18,7 +18,7 @@ iso-20022-sdk = { version = "0.1.0" }
 > #
 
 > #
-> Read the [ISO 20022 SDK User Guide]() for usage examples and more information.
+> Read the [ISO 20022 SDK User Guide](https://emergentfinancial.github.io/iso-20022/) for usage examples and more information.
 > #
 <br/>
 <br/>
