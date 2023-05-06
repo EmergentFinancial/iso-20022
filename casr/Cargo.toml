@@ -10,7 +10,7 @@ documentation = "https://docs.rs/iso-20022-sdk"
 readme = "../README.md"
 license-file = "../LICENSE.md"
 categories = ["finance"]
-keywords = ["iso20022", "Universal financial industry message scheme", "Settlement Reporting"]
+keywords = ["ISO 20022", "Universal financial industry message scheme", "Settlement Reporting"]
 
 [dependencies]
 chrono = { version = "0.4.24", features = ["serde"] }

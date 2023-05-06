@@ -10,7 +10,7 @@ documentation = "https://docs.rs/iso-20022-sdk"
 readme = "../README.md"
 license-file = "../LICENSE.md"
 categories = ["finance"]
-keywords = ["iso20022", "Universal financial industry message scheme", "XML Signature"]
+keywords = ["ISO 20022", "Universal financial industry message scheme", "XML Signature"]
 
 [features]
 default = []
