@@ -3,6 +3,7 @@ name = "iso-20022-casr"
 version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/emergentfinancial/iso-20022"
+description = "ISO 20022 Rust SDK"
 authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
 homepage = "https://emergentfinancial.github.io/iso-20022"
 documentation = "https://docs.rs/iso-20022-sdk"
