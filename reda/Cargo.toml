@@ -6,10 +6,10 @@ repository = "https://github.com/emergentfinancial/iso-20022"
 authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
 homepage = "https://emergentfinancial.github.io/iso-20022"
 documentation = "https://docs.rs/iso-20022-sdk"
-readme = "README.md"
-license-file = "LICENSE.md"
+readme = "../README.md"
+license-file = "../LICENSE.md"
 categories = ["finance"]
-keywords = ["iso20022", "Universal financial industry message scheme"]
+keywords = ["iso20022", "Universal financial industry message scheme", "Reference Data"]
 
 [dependencies]
 chrono = { version = "0.4.24", features = ["serde"] }
