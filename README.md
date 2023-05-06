@@ -13,6 +13,10 @@ iso-20022-sdk = { version = "0.1.0" }
 ```
 
 > #
+> WARNING: This repository is actively under development. While we will do our best to maintain consistency and adequate deprecation notices, it is wise to expect breaking changes and use a static version in your dependencies.
+> #
+
+> #
 > Read the [ISO 20022 SDK User Guide]() for usage examples and more information.
 > #
 <br/>
