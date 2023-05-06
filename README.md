@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/EmergentFinancial/iso-20022/main/logo.svg" height="300" />
 
 
-# ISO 20022 Software Developer Kit (SDK)
+# ISO 20022 Software Development Kit (SDK)
 
 The `iso-20022-sdk` is a Rust library for working with ISO 20022 messages.
 
