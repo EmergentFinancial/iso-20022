@@ -19,7 +19,7 @@
         dur="12s"
         repeatCount="indefinite" />
     </tspan>
-    <tspan x="80" y="150" font-size="50">Financial <animate
+    <tspan x="80" y="150" font-size="50">Economic <animate
         attributeName="fill"
         values="#000;#fff;#000"
         dur="24s"
