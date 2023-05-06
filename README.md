@@ -13,7 +13,7 @@ iso-20022-sdk = { version = "0.1.0" }
 ```
 
 > #
-> Read the [ISO 20022 SDK Book]() for usage examples and more information.
+> Read the [ISO 20022 SDK User Guide]() for usage examples and more information.
 > #
 
 > #
@@ -156,3 +156,7 @@ Emergent Financial, LLC and iso-20022-sdk are separate entities from the ISO® 2
 Furthermore, please note that iso-20022-sdk is provided as-is without any warranty of any kind, either express or implied. Emergent Financial, LLC and iso-20022-sdk do not make any guarantees regarding the accuracy, completeness, or reliability of the information contained in iso-20022-sdk, nor do they assume any liability for any damages or losses that may arise from the use of this software.
 
 It is recommended that users exercise caution when using iso-20022-sdk and conduct their own independent research to assess its suitability for their particular purposes. Emergent Financial, LLC and iso-20022-sdk shall not be held liable for any direct, indirect, incidental, consequential, or other damages arising from the use of iso-20022-sdk or any other software provided by Emergent Financial, LLC.
+
+---
+
+Copyright 2023 Emergent Financial, LLC - All Rights Reserved

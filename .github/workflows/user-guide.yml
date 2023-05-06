@@ -43,7 +43,7 @@ jobs:
           restore-keys: ${{ runner.os }}-cargo-
       
       # Install mdbook & mdbook-plantuml
-      - run: cargo install mdbook mdbook-plantuml
+      - run: cargo install mdbook mdbook-plantuml --force
 
       # Build User Guide
       - name: Build User Guide
