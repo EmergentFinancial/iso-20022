@@ -4,7 +4,11 @@ version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/emergentfinancial/iso-20022"
 authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
-license = "EF-LPLv1"
+homepage = "https://emergentfinancial.github.io/iso-20022"
+documentation = "https://docs.rs/iso-20022-sdk"
+readme = "README.md"
+license-file = "LICENSE.md"
+categories = ["finance"]
 
 [dependencies]
 iso-20022-head = { path = "../head" }
