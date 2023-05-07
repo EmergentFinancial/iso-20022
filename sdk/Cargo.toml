@@ -9,7 +9,7 @@ homepage = "https://emergentfinancial.github.io/iso-20022"
 documentation = "https://docs.rs/iso-20022-sdk"
 readme = "../README.md"
 license-file = "../LICENSE.md"
-categories = ["finance"]
+categories = ["finance", "encoding"]
 keywords = ["ISO", "20022"]
 
 [features]
