@@ -199,8 +199,9 @@ pub struct Document {
 
 /// Return the Document based on the namespace
 impl Document {
+    #[allow(unused_variables)]
     pub fn from_namespace(namespace: &str) -> Self {
-        let _schema = namespace.replace(DEFAULT_XLMNS_PREFIX, "");
+        let schema = namespace.replace(DEFAULT_XLMNS_PREFIX, "");
         #[cfg(feature = "acmt")]
         if let Ok(doc) = acmt::Document::try_from(schema.as_str()) {
             return Self {
