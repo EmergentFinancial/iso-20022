@@ -440,6 +440,8 @@ checksum = "cb56e1aa765b4b4f3aadfab769793b7087bb03a4ea4920644a6d238e2df5b9ed"
 [[package]]
 name = "iso-20022-acmt"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "249be62ef56947a0156c938c92737d9c53555e8de324177079aa704fe27ad20a"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -454,6 +456,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-admi"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "38ac8fd8d470303cb3162b726033eb92d9d8c5bf783a2b723935bb3880ad3f2e"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -468,6 +472,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-auth"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f08b5068a073b9ee7639d90c525476cadd42018029b3a44270e51e1d73ba00dc"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -482,6 +488,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-caaa"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db3ef3c1ed1790790f91002d4b305820eb39b61ec4a989cb776dc017289daa20"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -496,6 +504,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-caad"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7abc1ed99afb39f031378b8c0d4794fd12328aa2fe8cd40f497cd1e50253d93e"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -510,6 +520,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-caam"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8485f58759e23eada6687ad706b9d5cf3b93c5946ce745850b1a28a661b16b29"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -524,6 +536,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-cafc"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9bb942807306647d43e7f89113774111b153fb5e27448ce51a9ba177f4fcb627"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -538,6 +552,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-cafm"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "553b281ef2aef957e3c46a959f9e41553ac672fa97baa343e9155aa016279687"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -552,6 +568,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-cafr"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "87a0499fedf8aaeb20e6bffae04375af3d63927a8e08d39eea5d6a53794c23ec"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -566,6 +584,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-cain"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f885525ef6f6832cc1ec743e492465446d13cc9a5eef0c2a3e0ccc4668e16494"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -580,6 +600,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-camt"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "198ebf17228fb60c90c2b6000378afd04e6515fb0a142a88eb9d237cdc9477ec"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -594,6 +616,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-canm"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c8eea1e2a6e006815d76fe3700dde79137637d1c6f21339cc48aaa84d5f9d02"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -608,6 +632,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-casp"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c85f41ee24c4e8ed3ae4048afbc1eb634d8eb174098a5251a954e18257c221eb"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -622,6 +648,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-casr"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1983a64ef5cd7083a13c79370209c1c7f8ba6552fb4d110f2bbb6366f417c3f4"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -636,6 +664,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-catm"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70426d4b0537c8ce8ce1a46e8f876b620a56c6edd8b95ffe02539472f3fdb31c"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -650,6 +680,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-catp"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "006a21b25441574ec2aeafdb1ca25076994604a4d392422bfe6e107fc39d2630"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -664,6 +696,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-colr"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4481efe372f51d951b20d9a738ae4a43fda5b873c82da9819d85d287943bb3d4"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -690,8 +724,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "iso-20022-dsig"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8a86da08219dd508cdb25fc3ec0a9434cf9110d1103c328374507be967a87c91"
+dependencies = [
+ "chrono",
+ "derive_builder",
+ "lazy_static",
+ "regex",
+ "serde",
+ "serde-xml-rs",
+ "validator",
+ "xml-rs",
+]
+
+[[package]]
 name = "iso-20022-fxtr"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "764018402e9316ddc5e8ff6b2b8c987bdadf85d79379615a34e91a018defda26"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -718,8 +770,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "iso-20022-head"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d773dae8f1873743fb5edc86aa4e285bcab6045ba7d6ccfa203f02ffb90a512c"
+dependencies = [
+ "chrono",
+ "derive_builder",
+ "lazy_static",
+ "regex",
+ "serde",
+ "serde-xml-rs",
+ "validator",
+ "xml-rs",
+]
+
+[[package]]
 name = "iso-20022-nvlp"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "91dd6f6fb2977e5dc97cf2d08ab2468d5e430b98925be5d9a50148e7355252a3"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -734,6 +804,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-pacs"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "160b70bc1146380a27ae2c24d2314859cb05e436ace9084f97be85f221615639"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -748,6 +820,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-pain"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "20b36fb91b3cb985e24a90a827a91221f7c77c2c8e653a32b47070fbb7d4aa67"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -762,6 +836,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-reda"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "93278aaab139464345d35ff3b0f498f0d3fe40a14490adfa832ca3950d56a51c"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -776,6 +852,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-remt"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf1f99fea8b2b245d4a30eea8e3b0799da306ef6b3f4c342618201faa8d21c45"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -811,9 +889,9 @@ dependencies = [
  "iso-20022-catm",
  "iso-20022-catp",
  "iso-20022-colr",
- "iso-20022-dsig",
+ "iso-20022-dsig 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "iso-20022-fxtr",
- "iso-20022-head",
+ "iso-20022-head 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "iso-20022-nvlp",
  "iso-20022-pacs",
  "iso-20022-pain",
@@ -843,6 +921,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-secl"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7b5719e78daddfd9e2f49d53f1d13a49518f3ec1c4f9676f2943c526e3fddf0b"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -857,6 +937,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-seev"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8f9fa4b8e1744a8e8350b44a4558c0abc22ffae220ddf69692cc745f01fdcb38"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -871,6 +953,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-semt"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "baa000d0a7ce12b8af61e2f49e88dc916547c93d845df33a5313562e4066d6dd"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -885,6 +969,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-sese"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7b4105cef25d7d8f5968ed4046160ddb1bdd89f98695a58372ba4bfb1f077093"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -899,6 +985,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-setr"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0570e96881cba25fe69048eaf134daf03874cb3d5d39c87781ad889a166d3c01"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -914,13 +1002,15 @@ dependencies = [
 name = "iso-20022-tests"
 version = "0.1.0"
 dependencies = [
- "iso-20022-dsig",
- "iso-20022-head",
+ "iso-20022-dsig 0.1.0",
+ "iso-20022-head 0.1.0",
 ]
 
 [[package]]
 name = "iso-20022-tsin"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d50d65d3e535ef8b7ff7af060785345e9f817575bd07dfc2577699b8cd7d4652"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -935,6 +1025,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-tsmt"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6e9334256f8dc5d352da522966e8bafacc36294a775bd1fe001d905bf8269525"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -949,6 +1041,8 @@ dependencies = [
 [[package]]
 name = "iso-20022-tsrv"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b215a4f90c809c5efa45a945ebc94b04d293e7ad2653235ab246fbb18452cef3"
 dependencies = [
  "chrono",
  "derive_builder",
