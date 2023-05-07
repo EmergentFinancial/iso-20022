@@ -84,7 +84,7 @@ use crate::head::head_001_001_03::{self as head};
 use crate::nvlp::nvlp_001_001_01::{self as nvlp};
 
 use sxd_document::parser;
-use sxd_xpath::{evaluate_xpath, Value};
+use sxd_xpath::{evaluate_xpath};
 
 use xml::{reader::XmlEvent, EventReader};
 
@@ -518,7 +518,7 @@ mod tests {
         let file = std::fs::read_to_string("examples/nvlp.xml").expect("Unable to read file");
 
         // println!("file: {}", file);
-        let msg = Message::<Dmkr>::from_xml(&file)?;
+        let _msg = Message::<Dmkr>::from_xml(&file)?;
 
         Ok(())
     }

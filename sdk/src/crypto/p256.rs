@@ -14,12 +14,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-use iso_20022_dsig::dsig::{Signature, SignatureBuilder};
-use iso_20022_head::head_001_001_03::*;
-use iso_20022_nvlp::nvlp_001_001_01::*;
-use p256::ecdsa::{signature::Signer, Signature as P256Signature, SigningKey};
-use quick_xml::de::from_str;
-use quick_xml::se::to_string;
+// use iso_20022_dsig::dsig::{Signature, SignatureBuilder};
+// use iso_20022_head::head_001_001_03::*;
+// use iso_20022_nvlp::nvlp_001_001_01::*;
+// use p256::ecdsa::{signature::Signer, Signature as P256Signature, SigningKey};
+// use quick_xml::de::from_str;
+// use quick_xml::se::to_string;
 
 #[derive(
     Debug,
@@ -35,7 +35,7 @@ pub struct P256Sig;
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    // use super::*;
 
     #[test]
     fn test_p256() {
