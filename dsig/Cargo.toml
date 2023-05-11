@@ -1,16 +1,16 @@
 [package]
 name = "iso-20022-dsig"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 repository = "https://github.com/emergentfinancial/iso-20022"
-description = "ISO 20022 Universal Financial Industry Message Scheme Rust SDK"
+description = "Digital Signature for ISO 20022 Universal Financial Industry Message Scheme Rust SDK"
 authors = ["Ryan Tate <ryan.tate@emergent.financial>"]
 homepage = "https://emergentfinancial.github.io/iso-20022"
 documentation = "https://docs.rs/iso-20022-dsig"
 readme = "../README.md"
 license-file = "../LICENSE.md"
-categories = ["finance"]
-keywords = ["ISO", "20022"]
+categories = ["finance", "cryptography", "encoding"]
+keywords = ["ISO", "20022", "iso20022", "xmldsig"]
 
 [features]
 default = []
