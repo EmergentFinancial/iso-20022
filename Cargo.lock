@@ -870,6 +870,7 @@ name = "iso-20022-sdk"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "const-oid",
  "derive_builder",
  "format_xml",
  "iso-20022-acmt",

@@ -14,9 +14,9 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// See ISO-20022 Intellectual Property Rights Policy at
-// <https://www.iso20022.org/intellectual-property-rights>
-// for more information.
+// See http://www.w3.org/2000/09/xmldsig# for more information.
+// XML Signature Syntax and Processing Version 2.0
+// 
 
 use validator::Validate;
 
