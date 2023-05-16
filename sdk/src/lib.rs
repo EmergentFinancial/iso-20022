@@ -15,26 +15,35 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //!
-//! # ISO 20022 Software Developer Kit (SDK)
-//!
-//! The `iso-20022-sdk` is a Rust library for working with the <a href="https://iso20022.org" target="_blank">ISO 20022</a> Universal financial industry message scheme.
+//! <img src="https://raw.githubusercontent.com/EmergentFinancial/iso-20022/main/logo.svg" height="300" />
 //!
 //!
-//! > #
-//! > Need ISO-20022 Integrations? [Contact us](mailto:ryan.tate@emergent.financial) to learn about our software systems and development services.
-//! > #
+//! # ISO 20022 Software Development Kit (SDK)
 //!
-//! ## Install the SDK Library
-//!
-//! Add `iso-20022-sdk` to your `Cargo.toml` dependencies:
+//! The `iso-20022-sdk` is a Rust library for working with ISO 20022 messages.
 //!
 //! ```toml
+//! # Cargo.toml
 //!
 //! [dependencies]
 //! iso-20022-sdk = { version = "0.1.0" }
 //!
 //! ```
 //!
+//! > #
+//! > WARNING: This repository is actively under development. While we will do our best to maintain consistency and adequate deprecation notices, it is wise to expect breaking changes and use a static version in your dependencies.
+//! > #
+//!
+//! > #
+//! > Read the [ISO 20022 SDK User Guide](https://emergentfinancial.github.io/iso-20022/) for usage examples and more information.
+//! > #
+//! <br/>
+//! <br/>
+//! <img src="https://raw.githubusercontent.com/EmergentFinancial/iso-20022/main/network.svg" />
+//!
+//! > #
+//! > Need ISO 20022 Integrations? [Contact us](mailto:ryan.tate@emergent.financial) to learn about our services.
+//! > #
 //!
 //! ## Features
 //!
@@ -43,6 +52,7 @@
 //! Documents, e.g. `remt.001.001.01`, are conditionally compiled and need to be added individually, either as a business domain or message set feature, e.g.
 //!
 //! ```toml
+//! # Cargo.toml
 //!
 //! [dependencies]
 //! iso-20022-sdk = { version = "0.1.0", features = ["remt"] }
@@ -62,19 +72,20 @@
 //! To include messages relevant only to the `payments` business domain, add the `payments` feature to your `Cargo.toml`:
 //!
 //! ```toml
+//! # Cargo.toml
 //!
 //! [dependencies]
 //! iso-20022-sdk = { version = "0.1.0", features = ["payments"] }
 //!
 //! ```
 //!
-//! > *Using the payments features will include all message sets in the payments business domain.*
-//! >
+//! Using the `payments` features will include all message sets in the `payments` business domain:
+//!
 //! ```toml
 //! payments = ["acmt", "auth", "acmt", "admi", "camt", "pacs", "pain", "reda", "remt"]
 //! ```
-//! >
-//! > Available `business domain` features
+//!
+//! > Available business domain `features`
 //! >
 //! > - `payments`
 //! > - `securities`
@@ -89,6 +100,7 @@
 //!
 //!
 //! ```toml
+//! # Cargo.toml
 //!
 //! [dependencies]
 //! iso-20022-sdk = { version = "0.1.0", features = ["acmt", "admi"] }
@@ -96,7 +108,7 @@
 //! ```
 //!
 //!
-//! > Available `message set` features
+//! > Available message set `features`
 //! >
 //! > - `acmt`
 //! > - `admi`

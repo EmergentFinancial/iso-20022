@@ -38,3 +38,8 @@ exclude = [
 "tsmt",
 "tsrv",
 ]
+
+
+# Use local dsig for development
+[patch.crates-io]
+iso-20022-dsig = { path = "dsig" }

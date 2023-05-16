@@ -83,17 +83,16 @@ use std::io::BufReader;
 use crate::head::head_001_001_03::{self as head};
 use crate::nvlp::nvlp_001_001_01::{self as nvlp};
 
+use iso_20022_dsig::xpath::{FilterType, XPath, XPathType};
 use sxd_document::parser;
-use sxd_xpath::{evaluate_xpath};
+use sxd_xpath::evaluate_xpath;
 
 use xml::{reader::XmlEvent, EventReader};
 
-use crate::crypto::Signature;
 use crate::documents::{Dmkr, Document};
 
 /// Default Envelope Type
-pub type DefaultMsgEnvlp =
-    nvlp::BizMsgEnvlp<head::AppHdr<Signature, Signature>, Document, Dmkr, Dmkr>;
+pub type DefaultMsgEnvlp<Sig> = nvlp::BizMsgEnvlp<head::AppHdr<Sig, Sig>, Document, Dmkr, Dmkr>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -121,6 +120,13 @@ pub struct Message<
         + ::serde::Serialize
         + ::serde::Deserialize<'a>
         + ::validator::Validate,
+    Sig: std::fmt::Debug
+        + Default
+        + Clone
+        + PartialEq
+        + ::serde::Serialize
+        + ::serde::Deserialize<'a>
+        + ::validator::Validate,
 > {
     /// XML string representing the inner type. Used internally to parse the inner type.
     /// An incoming message will use this field for helping to determine what the
@@ -130,10 +136,10 @@ pub struct Message<
     /// inner type.
     pub xml_string: &'a str,
     /// Internal representation of the message envelope
-    pub inner: nvlp::BizMsgEnvlp<head::AppHdr<Signature, Signature>, Doc, Dmkr, Dmkr>,
+    pub inner: nvlp::BizMsgEnvlp<head::AppHdr<Sig, Sig>, Doc, Dmkr, Dmkr>,
 }
 
-impl<'a, Doc> Message<'a, Doc>
+impl<'a, Doc, Sig> Message<'a, Doc, Sig>
 where
     Doc: std::fmt::Debug
         + Default
@@ -142,6 +148,14 @@ where
         + ::serde::Serialize
         + ::serde::Deserialize<'a>
         + ::validator::Validate,
+    Sig: std::fmt::Debug
+        + Default
+        + Clone
+        + PartialEq
+        + ::serde::Serialize
+        + ::serde::Deserialize<'a>
+        + ::validator::Validate
+        + crate::crypto::XmlSignature,
 {
     pub fn builder() -> Self {
         let envlp = Self::default();
@@ -151,13 +165,13 @@ where
     }
 
     /// Return the application header from the message envelope
-    pub fn app_hdr(&self) -> Option<head::AppHdr<Signature, Signature>> {
+    pub fn app_hdr(&self) -> Option<head::AppHdr<Sig, Sig>> {
         self.inner.value.hdr.clone().map(|hdr| hdr.value)
     }
 
     /// Set the application header AppHdr of the message
     /// Note, this will overwrite the existing AppHdr
-    pub fn set_app_hdr(self, app_hdr: head::AppHdr<Signature, Signature>) -> Self {
+    pub fn set_app_hdr(self, app_hdr: head::AppHdr<Sig, Sig>) -> Self {
         let mut msg = self;
 
         // Set the AppHdr
@@ -373,24 +387,20 @@ where
     ///
     ///
     /// ```
+    ///
+    /// NOTE: The implemented `signer` must handle the construction of the
+    /// iso_20022_dsig XML `Signature` type.
     pub fn sign_document(
         self,
-        signer: impl signature::Signer<Signature>,
-        xpath: Option<&str>,
+        signer: impl signature::Signer<Sig>,
+        uri: Option<&str>,
+        x_path_transformations: Vec<XPath>,
     ) -> Result<Self, Error> {
-        let xml = quick_xml::se::to_string(&self.document())?;
-        let package = parser::parse(&xml)?;
-        let doc = package.as_document();
-
-        // By default, sign the entire document
-        let xpath = xpath.unwrap_or("/Document");
-        let data = evaluate_xpath(&doc, xpath)?.into_string();
-
-        // TODO, hash the data before signing
-        let data = data.as_bytes();
-
         // Sign the xpath data
-        let signature = signer.try_sign(data)?;
+        let data = self.x_path_data(x_path_transformations)?;
+        let signature = signer.try_sign(&data)?;
+
+        // signature.set_signed_info(uri, x_path_transformations, digest_value, public_key)
 
         // Set the signature in the application header
         let mut app_hdr = self.app_hdr().unwrap_or_default();
@@ -401,7 +411,7 @@ where
     }
 
     /// Set the related business reference of the message.
-    pub fn set_rltd(self, rltd: head::BusinessApplicationHeader7<Signature>) -> Self {
+    pub fn set_rltd(self, rltd: head::BusinessApplicationHeader7<Sig>) -> Self {
         let mut app_hdr = self.app_hdr().unwrap_or_default();
         app_hdr.value.rltd.push(rltd);
 
@@ -411,6 +421,46 @@ where
     /// Return the envelope document.
     pub fn document(&self) -> Doc {
         self.inner.value.doc.value.clone()
+    }
+
+    /// Returns the pre-hash digest of the document data to be signed, after XPath transformations.
+    pub fn x_path_data(&self, x_path_transformations: Vec<XPath>) -> Result<Vec<u8>, Error> {
+        let xml = quick_xml::se::to_string(&self.document())?;
+        let package = parser::parse(&xml)?;
+        let doc = package.as_document();
+
+        // TODO: Handle deduplication
+        // TODO: Intersection and Unions are handled as unions
+        let mut data = x_path_transformations.iter().fold(
+            String::new(),
+            |mut data,
+             XPath {
+                 value: XPathType { value, filter },
+             }| {
+                let exp = evaluate_xpath(&doc, value)
+                    // TODO: Identify a better way to handle XML string of evaluated xpath
+                    .map(|s| s.into_string())
+                    .unwrap_or_default();
+
+                match filter {
+                    FilterType::Subtract => {
+                        data = data.replace(&exp, "");
+                    }
+                    FilterType::Intersect | FilterType::Union => data.push_str(&exp),
+                    _ => {}
+                };
+
+                // Return the updated data to be signed
+                data
+            },
+        );
+
+        // By default, sign the entire document if no xpath transformations are found
+        if data.is_empty() {
+            data = evaluate_xpath(&doc, "/Document")?.into_string();
+        }
+
+        Ok(data.as_bytes().to_vec())
     }
 
     /// Return the serialized xml string of the inner type.
@@ -475,10 +525,13 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::{crypto::ecdsa::EcdsaSignature, prelude::MessageSigner};
 
     #[test]
     fn test_message_builder() -> Result<(), Error> {
-        let msg = Message::<_>::builder()
+        let signer = MessageSigner::<EcdsaSignature>::new();
+
+        let msg = Message::<Document, EcdsaSignature>::builder()
             .set_cre_dt()
             .set_msg_def_idr(head::Max35Text {
                 value: "pacs.008.001.07".to_string(),
@@ -504,7 +557,10 @@ mod tests {
                 }],
                 ..Default::default()
             })
-            .set_document(Document::from_namespace("pacs.008.001.07"));
+            // Set the document type for the message, this will overwrite the
+            // type set in the turbofish.
+            .set_document(Document::from_namespace("pacs.008.001.07"))
+            .sign_document(signer, None, vec![])?;
 
         let xml = msg.to_xml()?;
 
@@ -518,7 +574,7 @@ mod tests {
         let file = std::fs::read_to_string("examples/nvlp.xml").expect("Unable to read file");
 
         // println!("file: {}", file);
-        let _msg = Message::<Dmkr>::from_xml(&file)?;
+        let _msg = Message::<Dmkr, EcdsaSignature>::from_xml(&file)?;
 
         Ok(())
     }

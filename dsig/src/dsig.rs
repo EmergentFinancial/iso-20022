@@ -16,7 +16,7 @@
 //
 // See http://www.w3.org/2000/09/xmldsig# for more information.
 // XML Signature Syntax and Processing Version 2.0
-// 
+//
 
 use validator::Validate;
 
@@ -161,7 +161,7 @@ pub struct TransformTypeEnum<
     #[serde(rename = "any", skip_serializing_if = "Option::is_none")]
     pub any: Option<A>,
     #[serde(rename = "XPath", skip_serializing_if = "Option::is_none")]
-    pub x_path: Option<String>,
+    pub x_path: Option<super::xpath::XPath>,
 }
 #[derive(
     Debug,
