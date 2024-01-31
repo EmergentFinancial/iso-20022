@@ -93,6 +93,8 @@ pub mod tsmt;
 #[cfg(feature = "tsrv")]
 pub mod tsrv;
 
+use crate::message::Error;
+
 // default xmlns prefix for iso-20022 documents
 const DEFAULT_XLMNS_PREFIX: &str = "urn:iso:std:iso:20022:tech:xsd:";
 
@@ -192,6 +194,10 @@ pub enum DocumentType {
     ::validator::Validate,
 )]
 #[serde(transparent)]
+#[deprecated(
+    since = "0.1.0",
+    note = "high-level Document wrapper has known serde issues. Advise using the specific Document type of the desired schema. E.g., iso_20022_pacs::pacs_008_001_10::Document"
+)]
 pub struct Document {
     #[serde(flatten, skip_serializing_if = "Option::is_none")]
     pub value: Option<DocumentType>,
@@ -200,189 +206,221 @@ pub struct Document {
 /// Return the Document based on the namespace
 impl Document {
     #[allow(unused_variables)]
-    pub fn from_namespace(namespace: &str) -> Self {
+    pub fn from_namespace(namespace: &str) -> Result<Self, Error> {
         let schema = namespace.replace(DEFAULT_XLMNS_PREFIX, "");
-        #[cfg(feature = "acmt")]
-        if let Ok(doc) = acmt::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::acmt(doc)),
-            };
-        }
-        #[cfg(feature = "admi")]
-        if let Ok(doc) = admi::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::admi(doc)),
-            };
-        }
-        #[cfg(feature = "auth")]
-        if let Ok(doc) = auth::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::auth(doc)),
-            };
-        }
-        #[cfg(feature = "caaa")]
-        if let Ok(doc) = caaa::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::caaa(doc)),
-            };
-        }
-        #[cfg(feature = "caad")]
-        if let Ok(doc) = caad::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::caad(doc)),
-            };
-        }
-        #[cfg(feature = "caam")]
-        if let Ok(doc) = caam::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::caam(doc)),
-            };
-        }
-        #[cfg(feature = "cafc")]
-        if let Ok(doc) = cafc::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::cafc(doc)),
-            };
-        }
-        #[cfg(feature = "cafm")]
-        if let Ok(doc) = cafm::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::cafm(doc)),
-            };
-        }
-        #[cfg(feature = "cafr")]
-        if let Ok(doc) = cafr::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::cafr(doc)),
-            };
-        }
-        #[cfg(feature = "cain")]
-        if let Ok(doc) = cain::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::cain(doc)),
-            };
-        }
-        #[cfg(feature = "camt")]
-        if let Ok(doc) = camt::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::camt(doc)),
-            };
-        }
-        #[cfg(feature = "canm")]
-        if let Ok(doc) = canm::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::canm(doc)),
-            };
-        }
-        #[cfg(feature = "casp")]
-        if let Ok(doc) = casp::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::casp(doc)),
-            };
-        }
-        #[cfg(feature = "casr")]
-        if let Ok(doc) = casr::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::casr(doc)),
-            };
-        }
-        #[cfg(feature = "catm")]
-        if let Ok(doc) = catm::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::catm(doc)),
-            };
-        }
-        #[cfg(feature = "catp")]
-        if let Ok(doc) = catp::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::catp(doc)),
-            };
-        }
-        #[cfg(feature = "colr")]
-        if let Ok(doc) = colr::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::colr(doc)),
-            };
-        }
-        #[cfg(feature = "fxtr")]
-        if let Ok(doc) = fxtr::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::fxtr(doc)),
-            };
-        }
-        #[cfg(feature = "pacs")]
-        if let Ok(doc) = pacs::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::pacs(doc)),
-            };
-        }
-        #[cfg(feature = "pain")]
-        if let Ok(doc) = pain::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::pain(doc)),
-            };
-        }
-        #[cfg(feature = "reda")]
-        if let Ok(doc) = reda::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::reda(doc)),
-            };
-        }
-        #[cfg(feature = "remt")]
-        if let Ok(doc) = remt::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::remt(doc)),
-            };
-        }
-        #[cfg(feature = "secl")]
-        if let Ok(doc) = secl::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::secl(doc)),
-            };
-        }
-        #[cfg(feature = "seev")]
-        if let Ok(doc) = seev::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::seev(doc)),
-            };
-        }
-        #[cfg(feature = "semt")]
-        if let Ok(doc) = semt::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::semt(doc)),
-            };
-        }
-        #[cfg(feature = "sese")]
-        if let Ok(doc) = sese::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::sese(doc)),
-            };
-        }
-        #[cfg(feature = "setr")]
-        if let Ok(doc) = setr::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::setr(doc)),
-            };
-        }
-        #[cfg(feature = "tsin")]
-        if let Ok(doc) = tsin::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::tsin(doc)),
-            };
-        }
-        #[cfg(feature = "tsmt")]
-        if let Ok(doc) = tsmt::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::tsmt(doc)),
-            };
-        }
-        #[cfg(feature = "tsrv")]
-        if let Ok(doc) = tsrv::Document::try_from(schema.as_str()) {
-            return Self {
-                value: Some(DocumentType::tsrv(doc)),
-            };
-        }
 
-        Self { value: None }
+        match schema.split(".").next() {
+            #[cfg(feature = "acmt")]
+            Some("acmt") => {
+                let doc = acmt::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::acmt(doc)),
+                })
+            }
+            #[cfg(feature = "admi")]
+            Some("admi") => {
+                let doc = admi::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::admi(doc)),
+                })
+            }
+            #[cfg(feature = "auth")]
+            Some("auth") => {
+                let doc = auth::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::auth(doc)),
+                })
+            }
+            #[cfg(feature = "caaa")]
+            Some("caaa") => {
+                let doc = caaa::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::caaa(doc)),
+                })
+            }
+            #[cfg(feature = "caad")]
+            Some("caad") => {
+                let doc = caad::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::caad(doc)),
+                })
+            }
+            #[cfg(feature = "caam")]
+            Some("caam") => {
+                let doc = caam::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::caam(doc)),
+                })
+            }
+            #[cfg(feature = "cafc")]
+            Some("cafc") => {
+                let doc = cafc::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::cafc(doc)),
+                })
+            }
+            #[cfg(feature = "cafm")]
+            Some("cafm") => {
+                let doc = cafm::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::cafm(doc)),
+                })
+            }
+            #[cfg(feature = "cafr")]
+            Some("cafr") => {
+                let doc = cafr::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::cafr(doc)),
+                })
+            }
+            #[cfg(feature = "cain")]
+            Some("cain") => {
+                let doc = cain::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::cain(doc)),
+                })
+            }
+            #[cfg(feature = "camt")]
+            Some("camt") => {
+                let doc = camt::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::camt(doc)),
+                })
+            }
+            #[cfg(feature = "canm")]
+            Some("canm") => {
+                let doc = canm::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::canm(doc)),
+                })
+            }
+            #[cfg(feature = "casp")]
+            Some("casp") => {
+                let doc = casp::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::casp(doc)),
+                })
+            }
+            #[cfg(feature = "casr")]
+            Some("casr") => {
+                let doc = casr::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::casr(doc)),
+                })
+            }
+            #[cfg(feature = "catm")]
+            Some("catm") => {
+                let doc = catm::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::catm(doc)),
+                })
+            }
+            #[cfg(feature = "catp")]
+            Some("catp") => {
+                let doc = catp::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::catp(doc)),
+                })
+            }
+            #[cfg(feature = "colr")]
+            Some("colr") => {
+                let doc = colr::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::colr(doc)),
+                })
+            }
+            #[cfg(feature = "fxtr")]
+            Some("fxtr") => {
+                let doc = fxtr::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::fxtr(doc)),
+                })
+            }
+            #[cfg(feature = "pacs")]
+            Some("pacs") => {
+                let doc = pacs::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::pacs(doc)),
+                })
+            }
+            #[cfg(feature = "pain")]
+            Some("pain") => {
+                let doc = pain::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::pain(doc)),
+                })
+            }
+            #[cfg(feature = "reda")]
+            Some("reda") => {
+                let doc = reda::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::reda(doc)),
+                })
+            }
+            #[cfg(feature = "remt")]
+            Some("remt") => {
+                let doc = remt::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::remt(doc)),
+                })
+            }
+            #[cfg(feature = "secl")]
+            Some("secl") => {
+                let doc = secl::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::secl(doc)),
+                })
+            }
+            #[cfg(feature = "seev")]
+            Some("seev") => {
+                let doc = seev::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::seev(doc)),
+                })
+            }
+            #[cfg(feature = "semt")]
+            Some("semt") => {
+                let doc = semt::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::semt(doc)),
+                })
+            }
+            #[cfg(feature = "sese")]
+            Some("sese") => {
+                let doc = sese::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::sese(doc)),
+                })
+            }
+            #[cfg(feature = "setr")]
+            Some("setr") => {
+                let doc = setr::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::setr(doc)),
+                })
+            }
+            #[cfg(feature = "tsin")]
+            Some("tsin") => {
+                let doc = tsin::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::tsin(doc)),
+                })
+            }
+            #[cfg(feature = "tsmt")]
+            Some("tsmt") => {
+                let doc = tsmt::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::tsmt(doc)),
+                })
+            }
+            #[cfg(feature = "tsrv")]
+            Some("tsrv") => {
+                let doc = tsrv::Document::try_from(schema.as_str())?;
+                Ok(Self {
+                    value: Some(DocumentType::tsrv(doc)),
+                })
+            }
+            None | _ => Ok(Self { value: None }),
+        }
     }
 }

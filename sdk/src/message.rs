@@ -48,12 +48,12 @@
 //!     // `documents::pacs::pacs_008_001_07::Document`
 //!     //
 //!     // The example below uses the default values for the document builder
-//!     // for the `pacs.008.001.07` namespace.
+//!     // for the `pacs.008.001.10` namespace.
 //!     //
 //!     // NOTE: document namespaces are feature gated and must be enabled
 //!     // for the example to work, e.g. `pacs` feature must be enabled in
 //!     // Cargo.toml file.
-//!     .set_document(Document::from_namespace("pacs.008.001.07"))
+//!     .set_document(Document::from_namespace("pacs.008.001.10"))
 //!     // Call the `to_xml` method to serialize the `Message` type to XML
 //!     .to_xml();
 //!
@@ -83,9 +83,10 @@ use std::io::BufReader;
 use crate::head::head_001_001_03::{self as head};
 use crate::nvlp::nvlp_001_001_01::{self as nvlp};
 
+use serde::{Deserialize, Serialize};
 use sxd_document::parser;
-use sxd_xpath::{evaluate_xpath};
-
+use sxd_xpath::evaluate_xpath;
+use validator::Validate;
 use xml::{reader::XmlEvent, EventReader};
 
 use crate::crypto::Signature;
@@ -109,9 +110,21 @@ pub enum Error {
     /// Signing Error
     #[error(transparent)]
     Signing(#[from] signature::Error),
+    /// Validation Error
+    #[error(transparent)]
+    Validation(#[from] validator::ValidationErrors),
+    /// Unsupported Document Type
+    #[error("Unsupported Document Type: {0}")]
+    UnsupportedDocumentType(String),
+    /// Bincode Serialization Error
+    #[error(transparent)]
+    Bincode(#[from] Box<bincode::ErrorKind>),
+    /// Serde JSON Error
+    #[error(transparent)]
+    SerdeJson(#[from] serde_json::Error),
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Message<
     'a,
     Doc: std::fmt::Debug
@@ -119,7 +132,7 @@ pub struct Message<
         + Clone
         + PartialEq
         + ::serde::Serialize
-        + ::serde::Deserialize<'a>
+        // + ::serde::Deserialize<'a>
         + ::validator::Validate,
 > {
     /// XML string representing the inner type. Used internally to parse the inner type.
@@ -314,7 +327,7 @@ where
         self.set_app_hdr(app_hdr)
     }
 
-    /// e.g. `pacs.008.001.07`
+    /// e.g. `pacs.008.001.10`
     pub fn set_msg_def_idr(self, idr: head::Max35Text) -> Self {
         let mut app_hdr = self.app_hdr().unwrap_or_default();
         app_hdr.value.msg_def_idr = idr;
@@ -413,6 +426,14 @@ where
         self.inner.value.doc.value.clone()
     }
 
+    /// Validate the message envelope.
+    pub fn validate(&self) -> Result<(), Error> {
+        // Validate the envelope
+        self.inner.validate()?;
+
+        Ok(())
+    }
+
     /// Return the serialized xml string of the inner type.
     pub fn to_xml(&self) -> Result<String, Error> {
         let xml_string = quick_xml::se::to_string(&self.inner)?;
@@ -424,11 +445,11 @@ where
     pub fn from_xml(xml_string: &'a str) -> Result<Self, Error> {
         let inner = quick_xml::de::from_str(xml_string)?;
 
-        println!("inner: {:?}", inner);
+        // println!("inner: {:?}", inner);
 
         let mut msg = Self { xml_string, inner };
 
-        println!("msg: {:?}", msg);
+        // println!("msg: {:?}", msg);
 
         // Parse the msg into the inner type;
         msg.parse()?;
@@ -470,6 +491,34 @@ where
 
         Ok(())
     }
+
+    /// Serialize the message to bytes using bincode
+    pub fn to_bytes(&self) -> Result<Vec<u8>, Error> {
+        let bytes = bincode::serialize(&self)?;
+
+        Ok(bytes)
+    }
+
+    /// Deserialize the message from bytes using bincode
+    pub fn from_bytes(bytes: &'a [u8]) -> Result<Self, Error> {
+        let msg = bincode::deserialize(bytes)?;
+
+        Ok(msg)
+    }
+
+    /// Serialize to JSON string
+    pub fn to_json(&self) -> Result<String, Error> {
+        let json = serde_json::to_string(&self)?;
+
+        Ok(json)
+    }
+
+    /// Deserialize from JSON string
+    pub fn from_json(json: &'a str) -> Result<Self, Error> {
+        let msg = serde_json::from_str(json)?;
+
+        Ok(msg)
+    }
 }
 
 #[cfg(test)]
@@ -478,10 +527,14 @@ mod tests {
 
     #[test]
     fn test_message_builder() -> Result<(), Error> {
+        let mut doc = iso_20022_pacs::pacs_008_001_10::Document::<Dmkr, Dmkr>::default();
+
+        doc.xmlns = iso_20022_pacs::pacs_008_001_10::namespace();
+
         let msg = Message::<_>::builder()
             .set_cre_dt()
             .set_msg_def_idr(head::Max35Text {
-                value: "pacs.008.001.07".to_string(),
+                value: "pacs.008.001.10".to_string(),
             })
             .set_biz_msg_idr(head::Max35Text {
                 value: "Document".to_string(),
@@ -504,11 +557,28 @@ mod tests {
                 }],
                 ..Default::default()
             })
-            .set_document(Document::from_namespace("pacs.008.001.07"));
+            .set_document(doc);
 
-        let xml = msg.to_xml()?;
+        // Validate the message
+        msg.validate()?;
 
-        println!("xml: {}", xml);
+        println!("msg: {:?}", msg);
+
+        // let xml = msg.to_xml()?;
+
+        // println!("xml: {}", xml);
+
+        // // parse the xml message back to the message type
+        // let msg = Message::<iso_20022_pacs::pacs_008_001_10::Document<Dmkr, Dmkr>>::from_xml(&xml)?;
+
+        let json = msg.to_json()?;
+
+        println!("json: {:?}", json);
+
+        let msg =
+            Message::<iso_20022_pacs::pacs_008_001_10::Document<Dmkr, Dmkr>>::from_json(&json)?;
+
+        println!("msg: {:?}", msg);
 
         Ok(())
     }
@@ -519,6 +589,17 @@ mod tests {
 
         // println!("file: {}", file);
         let _msg = Message::<Dmkr>::from_xml(&file)?;
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_document_serialization() -> Result<(), Error> {
+        let doc = iso_20022_pacs::pacs_008_001_10::Document::<Dmkr, Dmkr>::default();
+
+        let xml = quick_xml::se::to_string(&doc)?;
+
+        println!("xml: {}", xml);
 
         Ok(())
     }

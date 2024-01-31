@@ -46,7 +46,7 @@ pub enum Document {
 }
 
 impl TryFrom<&str> for Document {
-    type Error = String;
+    type Error = crate::message::Error;
 
     fn try_from(s: &str) -> Result<Self, Self::Error> {
         let doc = match s {
@@ -70,7 +70,11 @@ impl TryFrom<&str> for Document {
             "tsrv.017.001.01" => Document::tsrv_017_001_01(Default::default()),
             "tsrv.018.001.01" => Document::tsrv_018_001_01(Default::default()),
             "tsrv.019.001.01" => Document::tsrv_019_001_01(Default::default()),
-            _ => return Err(s.to_string()),
+            _ => {
+                return Err(crate::message::Error::UnsupportedDocumentType(
+                    s.to_string(),
+                ))
+            }
         };
 
         Ok(doc)
