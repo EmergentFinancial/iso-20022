@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_cain::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // cain
     cain_001_001_03(iso_20022_cain::cain_001_001_03::Document<Dmkr>),
@@ -45,6 +46,42 @@ pub enum Document {
     cain_028_001_02(iso_20022_cain::cain_028_001_02::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::cain_001_001_03(d) => d.xmlns = iso_20022_cain::cain_001_001_03::namespace(),
+            Self::cain_002_001_03(d) => d.xmlns = iso_20022_cain::cain_002_001_03::namespace(),
+            Self::cain_003_001_03(d) => d.xmlns = iso_20022_cain::cain_003_001_03::namespace(),
+            Self::cain_004_001_03(d) => d.xmlns = iso_20022_cain::cain_004_001_03::namespace(),
+            Self::cain_005_001_03(d) => d.xmlns = iso_20022_cain::cain_005_001_03::namespace(),
+            Self::cain_006_001_03(d) => d.xmlns = iso_20022_cain::cain_006_001_03::namespace(),
+            Self::cain_014_001_02(d) => d.xmlns = iso_20022_cain::cain_014_001_02::namespace(),
+            Self::cain_015_001_02(d) => d.xmlns = iso_20022_cain::cain_015_001_02::namespace(),
+            Self::cain_016_001_02(d) => d.xmlns = iso_20022_cain::cain_016_001_02::namespace(),
+            Self::cain_017_001_02(d) => d.xmlns = iso_20022_cain::cain_017_001_02::namespace(),
+            Self::cain_018_001_02(d) => d.xmlns = iso_20022_cain::cain_018_001_02::namespace(),
+            Self::cain_019_001_02(d) => d.xmlns = iso_20022_cain::cain_019_001_02::namespace(),
+            Self::cain_020_001_02(d) => d.xmlns = iso_20022_cain::cain_020_001_02::namespace(),
+            Self::cain_021_001_02(d) => d.xmlns = iso_20022_cain::cain_021_001_02::namespace(),
+            Self::cain_022_001_02(d) => d.xmlns = iso_20022_cain::cain_022_001_02::namespace(),
+            Self::cain_023_001_02(d) => d.xmlns = iso_20022_cain::cain_023_001_02::namespace(),
+            Self::cain_024_001_02(d) => d.xmlns = iso_20022_cain::cain_024_001_02::namespace(),
+            Self::cain_025_001_02(d) => d.xmlns = iso_20022_cain::cain_025_001_02::namespace(),
+            Self::cain_026_001_02(d) => d.xmlns = iso_20022_cain::cain_026_001_02::namespace(),
+            Self::cain_027_001_02(d) => d.xmlns = iso_20022_cain::cain_027_001_02::namespace(),
+            Self::cain_028_001_02(d) => d.xmlns = iso_20022_cain::cain_028_001_02::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -77,6 +114,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_tsrv::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // tsrv
     tsrv_001_001_01(iso_20022_tsrv::tsrv_001_001_01::Document<Dmkr, Dmkr>),
@@ -43,6 +44,40 @@ pub enum Document {
     tsrv_019_001_01(iso_20022_tsrv::tsrv_019_001_01::Document<Dmkr, Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::tsrv_001_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_001_001_01::namespace(),
+            Self::tsrv_002_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_002_001_01::namespace(),
+            Self::tsrv_003_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_003_001_01::namespace(),
+            Self::tsrv_004_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_004_001_01::namespace(),
+            Self::tsrv_005_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_005_001_01::namespace(),
+            Self::tsrv_006_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_006_001_01::namespace(),
+            Self::tsrv_007_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_007_001_01::namespace(),
+            Self::tsrv_008_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_008_001_01::namespace(),
+            Self::tsrv_009_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_009_001_01::namespace(),
+            Self::tsrv_010_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_010_001_01::namespace(),
+            Self::tsrv_011_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_011_001_01::namespace(),
+            Self::tsrv_012_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_012_001_01::namespace(),
+            Self::tsrv_013_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_013_001_01::namespace(),
+            Self::tsrv_014_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_014_001_01::namespace(),
+            Self::tsrv_015_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_015_001_01::namespace(),
+            Self::tsrv_016_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_016_001_01::namespace(),
+            Self::tsrv_017_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_017_001_01::namespace(),
+            Self::tsrv_018_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_018_001_01::namespace(),
+            Self::tsrv_019_001_01(d) => d.xmlns = iso_20022_tsrv::tsrv_019_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -73,6 +108,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

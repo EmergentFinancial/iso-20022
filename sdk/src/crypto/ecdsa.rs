@@ -21,23 +21,30 @@
 // use quick_xml::de::from_str;
 // use quick_xml::se::to_string;
 
-use super::XmlSignature;
+use super::{XmlPublicKey, XmlSignature};
 use crate::documents::Dmkr;
 
-pub use const_oid::db::rfc5912::SECP_256_R_1;
-use elliptic_curve::sec1::{Coordinates, ToEncodedPoint};
+use elliptic_curve::{
+    pkcs8::{self, spki::AssociatedAlgorithmIdentifier, EncodePublicKey},
+    point::{PointCompaction, PointCompression},
+    sec1::{Coordinates, FromEncodedPoint, ModulusSize, ToEncodedPoint},
+    AffinePoint, Curve, FieldBytesSize, PrimeCurve,
+};
 
+use base64::{engine::general_purpose, Engine};
 use iso_20022_dsig::dsig::{
-    CanonicalizationMethod, CanonicalizationMethodType, DigestMethod, DigestMethodType,
-    DigestValue, DigestValueType, KeyInfo, Reference, ReferenceType, SignatureMethod,
-    SignatureMethodType, SignedInfo, SignedInfoType, SignedInfoTypeBuilder, Transform,
-    TransformType, TransformTypeEnum, Transforms, TransformsType, ID,
+    Base64Binary, CanonicalizationMethod, CanonicalizationMethodType, DigestMethod,
+    DigestMethodType, DigestValue, DigestValueType, KeyInfo, KeyInfoType, KeyInfoTypeEnum,
+    Reference, ReferenceType, SignatureMethod, SignatureMethodType, SignatureValue,
+    SignatureValueType, SignedInfo, SignedInfoType, Transform, TransformType, TransformTypeEnum,
+    Transforms, TransformsType, X509Data, X509DataType, X509DataTypeEnum, ID,
 };
 use iso_20022_dsig::ecdsa::{
     DomainParamsType, DomainParamsTypeEnum, EcPointType, EcdsaKeyValue, EcdsaKeyValueType,
     FieldElemType, HexBinary, NamedCurveType,
 };
 use iso_20022_dsig::xpath::XPath;
+use p256::{ecdsa::Signature, pkcs8::AssociatedOid, NistP256};
 use sha2::{Digest, Sha256};
 
 #[derive(
@@ -50,6 +57,7 @@ use sha2::{Digest, Sha256};
     // ::derive_builder::Builder,
     ::validator::Validate,
 )]
+#[serde(transparent)]
 pub struct EcdsaSignature {
     inner: iso_20022_dsig::dsig::Signature<
         Dmkr,
@@ -66,19 +74,89 @@ pub struct EcdsaSignature {
     >,
 }
 
+#[derive(Default, Debug, Clone)]
+pub enum EcdsaPublicKey {
+    P256(p256::PublicKey),
+    #[default]
+    Unknown,
+}
+
+impl XmlPublicKey for EcdsaPublicKey {
+    type PublicKey = Self;
+
+    fn to_ec_point(&self) -> EcPointType<HexBinary, HexBinary> {
+        match self {
+            Self::P256(key) => match key.to_encoded_point(false).coordinates() {
+                Coordinates::Uncompressed { x, y } => EcPointType {
+                    x: FieldElemType {
+                        value: HexBinary {
+                            value: hex::encode(x),
+                        },
+                    },
+                    y: FieldElemType {
+                        value: HexBinary {
+                            value: hex::encode(y),
+                        },
+                    },
+                },
+                _ => EcPointType::default(),
+            },
+            _ => {
+                unimplemented!()
+            }
+        }
+    }
+
+    fn to_der_bytes(self) -> Vec<u8> {
+        match self {
+            Self::P256(key) => {
+                let public_key_bytes = key.to_encoded_point(false);
+                if let Ok(subject_public_key) =
+                    der::asn1::BitStringRef::new(0, public_key_bytes.as_bytes())
+                {
+                    let der: Option<pkcs8::der::Document> = pkcs8::SubjectPublicKeyInfo {
+                        algorithm: p256::PublicKey::ALGORITHM_IDENTIFIER,
+                        subject_public_key,
+                    }
+                    .try_into()
+                    .ok();
+
+                    der.map(|d| d.to_vec()).unwrap_or_default()
+                } else {
+                    vec![]
+                }
+            }
+            _ => {
+                unimplemented!()
+            }
+        }
+    }
+
+    fn oid(&self) -> String {
+        match self {
+            Self::P256(_) => NistP256::OID.to_string(),
+            _ => {
+                unimplemented!()
+            }
+        }
+    }
+}
+
 impl XmlSignature for EcdsaSignature {
-    type PublicKey = p256::PublicKey;
+    type PublicKey = EcdsaPublicKey;
+
+    type Digest = Sha256;
 
     fn set_signed_info(
         self,
-        uri: String,
         x_path_transformations: Vec<XPath>,
         digest_value: DigestValueType,
         public_key: Self::PublicKey,
+        uri: Option<String>,
     ) -> Self {
         let mut sig = self.inner;
 
-        let transform = x_path_transformations
+        let transform: Vec<Transform<_>> = x_path_transformations
             .into_iter()
             .map(|path| Transform {
                 value: TransformType {
@@ -92,26 +170,17 @@ impl XmlSignature for EcdsaSignature {
             })
             .collect();
 
-        let id = ID {
-            value: uuid::Uuid::new_v4().to_string(),
+        let transforms = if transform.is_empty() {
+            None
+        } else {
+            Some(Transforms {
+                value: TransformsType { transform },
+            })
         };
 
-        let ec_points = match public_key.to_encoded_point(false).coordinates() {
-            Coordinates::Uncompressed { x, y } => EcPointType {
-                x: FieldElemType {
-                    value: HexBinary {
-                        value: hex::encode(x),
-                    },
-                },
-                y: FieldElemType {
-                    value: HexBinary {
-                        value: hex::encode(y),
-                    },
-                },
-            },
-            _ => EcPointType::default(),
-        };
+        let id = uuid::Uuid::new_v4().to_string();
 
+        // Set the signed info
         sig.value.signed_info = SignedInfo {
             value: SignedInfoType {
                 id: Some(id.clone()),
@@ -119,12 +188,10 @@ impl XmlSignature for EcdsaSignature {
                     value: ReferenceType {
                         id: Some(id.clone()),
                         r#type: Some("application/xml".to_string()),
-                        uri: Some(uri),
+                        uri,
                         // Transforms specify how the document was processed
                         // prior to calculating the digest.
-                        transforms: Some(Transforms {
-                            value: TransformsType { transform },
-                        }),
+                        transforms,
                         digest_method: DigestMethod {
                             value: DigestMethodType {
                                 algorithm: super::DEFAULT_DIGEST_METHOD_ALGORITHM.into(),
@@ -157,12 +224,12 @@ impl XmlSignature for EcdsaSignature {
                                 domain_parameters: Some(DomainParamsType {
                                     value: DomainParamsTypeEnum {
                                         named_curve: Some(NamedCurveType {
-                                            urn: SECP_256_R_1.to_string(),
+                                            urn: public_key.oid(),
                                         }),
                                         explicit_params: None,
                                     },
                                 }),
-                                public_key: ec_points,
+                                public_key: public_key.to_ec_point(),
                                 xmlns: iso_20022_dsig::ecdsa::namespace(),
                             },
                         }],
@@ -171,18 +238,107 @@ impl XmlSignature for EcdsaSignature {
             },
         };
 
+        // Set signature namespace
+        sig.value.xmlns = iso_20022_dsig::dsig::namespace();
+
+        Self { inner: sig }
+    }
+
+    fn set_key_info(self, public_key: Self::PublicKey) -> Self {
+        let mut sig = self.inner;
+
+        // Encode the public key to ASN.1 DER bytes
+        let der_bytes = public_key.to_der_bytes();
+        // Encode the ASN.1 DER bytes to base64
+        let der_base64 = general_purpose::STANDARD.encode(&der_bytes);
+
+        sig.value.key_info = Some(KeyInfo {
+            value: KeyInfoType {
+                value: vec![KeyInfoTypeEnum {
+                    x_509_data: Some(X509Data {
+                        value: X509DataType {
+                            value: X509DataTypeEnum {
+                                x_509_certificate: Some(Base64Binary { value: der_base64 }),
+                                ..Default::default()
+                            },
+                        },
+                    }),
+                    ..Default::default()
+                }],
+                id: None,
+            },
+        });
+
+        Self { inner: sig }
+    }
+
+    fn digest_value(&self) -> Option<DigestValueType> {
+        self.inner
+            .value
+            .signed_info
+            .value
+            .reference
+            .first()
+            .map(|r| r.value.digest_value.value.clone())
+    }
+
+    fn hash(data: &[u8]) -> DigestValueType {
+        // Hash the message
+        let mut hasher = Sha256::new();
+        hasher.update(data);
+        let hash = hasher.finalize();
+
+        DigestValueType {
+            value: general_purpose::STANDARD.encode(hash),
+        }
+    }
+
+    /// Set the signature value
+    fn set_signature_value(self, signature_value: Base64Binary, id: Option<String>) -> Self {
+        let mut sig = self.inner;
+
+        sig.value.signature_value = SignatureValue {
+            value: SignatureValueType {
+                value: signature_value,
+                id,
+            },
+        };
+
         Self { inner: sig }
     }
 }
 
-impl signature::Signer<EcdsaSignature> for super::MessageSigner<EcdsaSignature> {
-    fn try_sign(&self, msg: &[u8]) -> Result<EcdsaSignature, signature::Error> {
-        // Hash the message
-        let mut hasher = Sha256::new();
-        hasher.update(msg);
-        let hash = hasher.finalize();
+#[derive(Default, Debug, Clone)]
+pub enum EcdsaSigner {
+    /// P-256
+    P256(p256::ecdsa::SigningKey),
+    /// Unknown signer
+    #[default]
+    Unknown,
+}
 
-        unimplemented!()
+impl signature::Signer<EcdsaSignature> for EcdsaSigner {
+    fn try_sign(&self, msg: &[u8]) -> Result<EcdsaSignature, signature::Error> {
+        let signature = EcdsaSignature::default();
+
+        match self {
+            Self::P256(sk) => {
+                let sig: Signature = sk.try_sign(msg)?;
+                let bytes = sig.to_vec();
+
+                // Convert signature into base64 value
+                let signature_value = Base64Binary {
+                    value: general_purpose::STANDARD.encode(&bytes),
+                };
+
+                let sig = signature.set_signature_value(signature_value, None);
+
+                Ok(sig)
+            }
+            _ => {
+                unimplemented!()
+            }
+        }
     }
 }
 

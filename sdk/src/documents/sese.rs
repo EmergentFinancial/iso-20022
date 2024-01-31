@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_sese::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // sese
     sese_001_001_09(iso_20022_sese::sese_001_001_09::Document),
@@ -84,6 +85,81 @@ pub enum Document {
     sese_042_001_01(iso_20022_sese::sese_042_001_01::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::sese_001_001_09(d) => d.xmlns = iso_20022_sese::sese_001_001_09::namespace(),
+            Self::sese_002_001_09(d) => d.xmlns = iso_20022_sese::sese_002_001_09::namespace(),
+            Self::sese_003_001_09(d) => d.xmlns = iso_20022_sese::sese_003_001_09::namespace(),
+            Self::sese_004_001_09(d) => d.xmlns = iso_20022_sese::sese_004_001_09::namespace(),
+            Self::sese_005_001_09(d) => d.xmlns = iso_20022_sese::sese_005_001_09::namespace(),
+            Self::sese_006_001_09(d) => d.xmlns = iso_20022_sese::sese_006_001_09::namespace(),
+            Self::sese_007_001_09(d) => d.xmlns = iso_20022_sese::sese_007_001_09::namespace(),
+            Self::sese_008_001_09(d) => d.xmlns = iso_20022_sese::sese_008_001_09::namespace(),
+            Self::sese_009_001_08(d) => d.xmlns = iso_20022_sese::sese_009_001_08::namespace(),
+            Self::sese_010_001_07(d) => d.xmlns = iso_20022_sese::sese_010_001_07::namespace(),
+            Self::sese_011_001_09(d) => d.xmlns = iso_20022_sese::sese_011_001_09::namespace(),
+            Self::sese_012_001_11(d) => d.xmlns = iso_20022_sese::sese_012_001_11::namespace(),
+            Self::sese_013_001_11(d) => d.xmlns = iso_20022_sese::sese_013_001_11::namespace(),
+            Self::sese_014_001_09(d) => d.xmlns = iso_20022_sese::sese_014_001_09::namespace(),
+            Self::sese_018_001_09(d) => d.xmlns = iso_20022_sese::sese_018_001_09::namespace(),
+            Self::sese_019_001_08(d) => d.xmlns = iso_20022_sese::sese_019_001_08::namespace(),
+            Self::sese_020_001_07(d) => d.xmlns = iso_20022_sese::sese_020_001_07::namespace(),
+            Self::sese_020_002_07(d) => d.xmlns = iso_20022_sese::sese_020_002_07::namespace(),
+            Self::sese_021_001_06(d) => d.xmlns = iso_20022_sese::sese_021_001_06::namespace(),
+            Self::sese_021_002_06(d) => d.xmlns = iso_20022_sese::sese_021_002_06::namespace(),
+            Self::sese_022_001_06(d) => d.xmlns = iso_20022_sese::sese_022_001_06::namespace(),
+            Self::sese_022_002_06(d) => d.xmlns = iso_20022_sese::sese_022_002_06::namespace(),
+            Self::sese_023_001_11(d) => d.xmlns = iso_20022_sese::sese_023_001_11::namespace(),
+            Self::sese_023_002_11(d) => d.xmlns = iso_20022_sese::sese_023_002_11::namespace(),
+            Self::sese_024_001_12(d) => d.xmlns = iso_20022_sese::sese_024_001_12::namespace(),
+            Self::sese_024_002_12(d) => d.xmlns = iso_20022_sese::sese_024_002_12::namespace(),
+            Self::sese_025_001_11(d) => d.xmlns = iso_20022_sese::sese_025_001_11::namespace(),
+            Self::sese_025_002_11(d) => d.xmlns = iso_20022_sese::sese_025_002_11::namespace(),
+            Self::sese_026_001_10(d) => d.xmlns = iso_20022_sese::sese_026_001_10::namespace(),
+            Self::sese_026_002_10(d) => d.xmlns = iso_20022_sese::sese_026_002_10::namespace(),
+            Self::sese_027_001_07(d) => d.xmlns = iso_20022_sese::sese_027_001_07::namespace(),
+            Self::sese_027_002_07(d) => d.xmlns = iso_20022_sese::sese_027_002_07::namespace(),
+            Self::sese_028_001_10(d) => d.xmlns = iso_20022_sese::sese_028_001_10::namespace(),
+            Self::sese_028_002_10(d) => d.xmlns = iso_20022_sese::sese_028_002_10::namespace(),
+            Self::sese_029_001_06(d) => d.xmlns = iso_20022_sese::sese_029_001_06::namespace(),
+            Self::sese_029_002_06(d) => d.xmlns = iso_20022_sese::sese_029_002_06::namespace(),
+            Self::sese_030_001_09(d) => d.xmlns = iso_20022_sese::sese_030_001_09::namespace(),
+            Self::sese_030_002_09(d) => d.xmlns = iso_20022_sese::sese_030_002_09::namespace(),
+            Self::sese_031_001_09(d) => d.xmlns = iso_20022_sese::sese_031_001_09::namespace(),
+            Self::sese_031_002_09(d) => d.xmlns = iso_20022_sese::sese_031_002_09::namespace(),
+            Self::sese_032_001_11(d) => d.xmlns = iso_20022_sese::sese_032_001_11::namespace(),
+            Self::sese_032_002_11(d) => d.xmlns = iso_20022_sese::sese_032_002_11::namespace(),
+            Self::sese_033_001_11(d) => d.xmlns = iso_20022_sese::sese_033_001_11::namespace(),
+            Self::sese_033_002_11(d) => d.xmlns = iso_20022_sese::sese_033_002_11::namespace(),
+            Self::sese_034_001_09(d) => d.xmlns = iso_20022_sese::sese_034_001_09::namespace(),
+            Self::sese_034_002_09(d) => d.xmlns = iso_20022_sese::sese_034_002_09::namespace(),
+            Self::sese_035_001_11(d) => d.xmlns = iso_20022_sese::sese_035_001_11::namespace(),
+            Self::sese_035_002_11(d) => d.xmlns = iso_20022_sese::sese_035_002_11::namespace(),
+            Self::sese_036_001_08(d) => d.xmlns = iso_20022_sese::sese_036_001_08::namespace(),
+            Self::sese_036_002_08(d) => d.xmlns = iso_20022_sese::sese_036_002_08::namespace(),
+            Self::sese_037_001_07(d) => d.xmlns = iso_20022_sese::sese_037_001_07::namespace(),
+            Self::sese_037_002_07(d) => d.xmlns = iso_20022_sese::sese_037_002_07::namespace(),
+            Self::sese_038_001_09(d) => d.xmlns = iso_20022_sese::sese_038_001_09::namespace(),
+            Self::sese_038_002_09(d) => d.xmlns = iso_20022_sese::sese_038_002_09::namespace(),
+            Self::sese_039_001_06(d) => d.xmlns = iso_20022_sese::sese_039_001_06::namespace(),
+            Self::sese_039_002_06(d) => d.xmlns = iso_20022_sese::sese_039_002_06::namespace(),
+            Self::sese_040_001_04(d) => d.xmlns = iso_20022_sese::sese_040_001_04::namespace(),
+            Self::sese_040_002_04(d) => d.xmlns = iso_20022_sese::sese_040_002_04::namespace(),
+            Self::sese_041_001_01(d) => d.xmlns = iso_20022_sese::sese_041_001_01::namespace(),
+            Self::sese_042_001_01(d) => d.xmlns = iso_20022_sese::sese_042_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -155,6 +231,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

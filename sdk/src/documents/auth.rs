@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_auth::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // auth
     auth_001_001_01(iso_20022_auth::auth_001_001_01::Document<Dmkr>),
@@ -148,6 +149,104 @@ pub enum Document {
     Unknown,
 }
 
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            // auth
+            Self::auth_001_001_01(d) => d.xmlns = iso_20022_auth::auth_001_001_01::namespace(),
+            Self::auth_002_001_01(d) => d.xmlns = iso_20022_auth::auth_002_001_01::namespace(),
+            Self::auth_003_001_01(d) => d.xmlns = iso_20022_auth::auth_003_001_01::namespace(),
+            Self::auth_012_001_02(d) => d.xmlns = iso_20022_auth::auth_012_001_02::namespace(),
+            Self::auth_013_001_02(d) => d.xmlns = iso_20022_auth::auth_013_001_02::namespace(),
+            Self::auth_014_001_02(d) => d.xmlns = iso_20022_auth::auth_014_001_02::namespace(),
+            Self::auth_015_001_02(d) => d.xmlns = iso_20022_auth::auth_015_001_02::namespace(),
+            Self::auth_016_001_02(d) => d.xmlns = iso_20022_auth::auth_016_001_02::namespace(),
+            Self::auth_017_001_02(d) => d.xmlns = iso_20022_auth::auth_017_001_02::namespace(),
+            Self::auth_018_001_03(d) => d.xmlns = iso_20022_auth::auth_018_001_03::namespace(),
+            Self::auth_019_001_03(d) => d.xmlns = iso_20022_auth::auth_019_001_03::namespace(),
+            Self::auth_020_001_03(d) => d.xmlns = iso_20022_auth::auth_020_001_03::namespace(),
+            Self::auth_021_001_03(d) => d.xmlns = iso_20022_auth::auth_021_001_03::namespace(),
+            Self::auth_022_001_03(d) => d.xmlns = iso_20022_auth::auth_022_001_03::namespace(),
+            Self::auth_023_001_03(d) => d.xmlns = iso_20022_auth::auth_023_001_03::namespace(),
+            Self::auth_024_001_03(d) => d.xmlns = iso_20022_auth::auth_024_001_03::namespace(),
+            Self::auth_025_001_03(d) => d.xmlns = iso_20022_auth::auth_025_001_03::namespace(),
+            Self::auth_026_001_03(d) => d.xmlns = iso_20022_auth::auth_026_001_03::namespace(),
+            Self::auth_027_001_03(d) => d.xmlns = iso_20022_auth::auth_027_001_03::namespace(),
+            Self::auth_028_001_01(d) => d.xmlns = iso_20022_auth::auth_028_001_01::namespace(),
+            Self::auth_029_001_03(d) => d.xmlns = iso_20022_auth::auth_029_001_03::namespace(),
+            Self::auth_030_001_03(d) => d.xmlns = iso_20022_auth::auth_030_001_03::namespace(),
+            Self::auth_031_001_01(d) => d.xmlns = iso_20022_auth::auth_031_001_01::namespace(),
+            Self::auth_032_001_01(d) => d.xmlns = iso_20022_auth::auth_032_001_01::namespace(),
+            Self::auth_033_001_02(d) => d.xmlns = iso_20022_auth::auth_033_001_02::namespace(),
+            Self::auth_034_001_01(d) => d.xmlns = iso_20022_auth::auth_034_001_01::namespace(),
+            Self::auth_035_001_01(d) => d.xmlns = iso_20022_auth::auth_035_001_01::namespace(),
+            Self::auth_036_001_02(d) => d.xmlns = iso_20022_auth::auth_036_001_02::namespace(),
+            Self::auth_038_001_01(d) => d.xmlns = iso_20022_auth::auth_038_001_01::namespace(),
+            Self::auth_039_001_01(d) => d.xmlns = iso_20022_auth::auth_039_001_01::namespace(),
+            Self::auth_040_001_01(d) => d.xmlns = iso_20022_auth::auth_040_001_01::namespace(),
+            Self::auth_041_001_01(d) => d.xmlns = iso_20022_auth::auth_041_001_01::namespace(),
+            Self::auth_042_001_02(d) => d.xmlns = iso_20022_auth::auth_042_001_02::namespace(),
+            Self::auth_043_001_01(d) => d.xmlns = iso_20022_auth::auth_043_001_01::namespace(),
+            Self::auth_044_001_02(d) => d.xmlns = iso_20022_auth::auth_044_001_02::namespace(),
+            Self::auth_045_001_02(d) => d.xmlns = iso_20022_auth::auth_045_001_02::namespace(),
+            Self::auth_047_001_01(d) => d.xmlns = iso_20022_auth::auth_047_001_01::namespace(),
+            Self::auth_048_001_01(d) => d.xmlns = iso_20022_auth::auth_048_001_01::namespace(),
+            Self::auth_049_001_02(d) => d.xmlns = iso_20022_auth::auth_049_001_02::namespace(),
+            Self::auth_050_001_01(d) => d.xmlns = iso_20022_auth::auth_050_001_01::namespace(),
+            Self::auth_052_001_02(d) => d.xmlns = iso_20022_auth::auth_052_001_02::namespace(),
+            Self::auth_053_001_01(d) => d.xmlns = iso_20022_auth::auth_053_001_01::namespace(),
+            Self::auth_054_001_01(d) => d.xmlns = iso_20022_auth::auth_054_001_01::namespace(),
+            Self::auth_055_001_01(d) => d.xmlns = iso_20022_auth::auth_055_001_01::namespace(),
+            Self::auth_056_001_01(d) => d.xmlns = iso_20022_auth::auth_056_001_01::namespace(),
+            Self::auth_057_001_01(d) => d.xmlns = iso_20022_auth::auth_057_001_01::namespace(),
+            Self::auth_058_001_01(d) => d.xmlns = iso_20022_auth::auth_058_001_01::namespace(),
+            Self::auth_059_001_01(d) => d.xmlns = iso_20022_auth::auth_059_001_01::namespace(),
+            Self::auth_060_001_01(d) => d.xmlns = iso_20022_auth::auth_060_001_01::namespace(),
+            Self::auth_061_001_01(d) => d.xmlns = iso_20022_auth::auth_061_001_01::namespace(),
+            Self::auth_062_001_01(d) => d.xmlns = iso_20022_auth::auth_062_001_01::namespace(),
+            Self::auth_063_001_01(d) => d.xmlns = iso_20022_auth::auth_063_001_01::namespace(),
+            Self::auth_064_001_01(d) => d.xmlns = iso_20022_auth::auth_064_001_01::namespace(),
+            Self::auth_065_001_01(d) => d.xmlns = iso_20022_auth::auth_065_001_01::namespace(),
+            Self::auth_066_001_01(d) => d.xmlns = iso_20022_auth::auth_066_001_01::namespace(),
+            Self::auth_067_001_01(d) => d.xmlns = iso_20022_auth::auth_067_001_01::namespace(),
+            Self::auth_068_001_01(d) => d.xmlns = iso_20022_auth::auth_068_001_01::namespace(),
+            Self::auth_069_001_01(d) => d.xmlns = iso_20022_auth::auth_069_001_01::namespace(),
+            Self::auth_070_001_02(d) => d.xmlns = iso_20022_auth::auth_070_001_02::namespace(),
+            Self::auth_071_001_02(d) => d.xmlns = iso_20022_auth::auth_071_001_02::namespace(),
+            Self::auth_072_001_01(d) => d.xmlns = iso_20022_auth::auth_072_001_01::namespace(),
+            Self::auth_076_001_01(d) => d.xmlns = iso_20022_auth::auth_076_001_01::namespace(),
+            Self::auth_077_001_01(d) => d.xmlns = iso_20022_auth::auth_077_001_01::namespace(),
+            Self::auth_078_001_02(d) => d.xmlns = iso_20022_auth::auth_078_001_02::namespace(),
+            Self::auth_079_001_02(d) => d.xmlns = iso_20022_auth::auth_079_001_02::namespace(),
+            Self::auth_080_001_02(d) => d.xmlns = iso_20022_auth::auth_080_001_02::namespace(),
+            Self::auth_083_001_02(d) => d.xmlns = iso_20022_auth::auth_083_001_02::namespace(),
+            Self::auth_084_001_02(d) => d.xmlns = iso_20022_auth::auth_084_001_02::namespace(),
+            Self::auth_085_001_02(d) => d.xmlns = iso_20022_auth::auth_085_001_02::namespace(),
+            Self::auth_086_001_02(d) => d.xmlns = iso_20022_auth::auth_086_001_02::namespace(),
+            Self::auth_090_001_01(d) => d.xmlns = iso_20022_auth::auth_090_001_01::namespace(),
+            Self::auth_091_001_02(d) => d.xmlns = iso_20022_auth::auth_091_001_02::namespace(),
+            Self::auth_092_001_03(d) => d.xmlns = iso_20022_auth::auth_092_001_03::namespace(),
+            Self::auth_094_001_02(d) => d.xmlns = iso_20022_auth::auth_094_001_02::namespace(),
+            Self::auth_100_001_01(d) => d.xmlns = iso_20022_auth::auth_100_001_01::namespace(),
+            Self::auth_101_001_01(d) => d.xmlns = iso_20022_auth::auth_101_001_01::namespace(),
+            Self::auth_102_001_01(d) => d.xmlns = iso_20022_auth::auth_102_001_01::namespace(),
+            Self::auth_105_001_01(d) => d.xmlns = iso_20022_auth::auth_105_001_01::namespace(),
+            Self::auth_106_001_01(d) => d.xmlns = iso_20022_auth::auth_106_001_01::namespace(),
+            Self::auth_107_001_01(d) => d.xmlns = iso_20022_auth::auth_107_001_01::namespace(),
+            Self::auth_108_001_01(d) => d.xmlns = iso_20022_auth::auth_108_001_01::namespace(),
+            Self::auth_109_001_01(d) => d.xmlns = iso_20022_auth::auth_109_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
+}
+
 impl TryFrom<&str> for Document {
     type Error = String;
 
@@ -239,6 +338,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

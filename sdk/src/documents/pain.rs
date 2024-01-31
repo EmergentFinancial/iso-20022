@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_pain::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // pain
     pain_001_001_11(iso_20022_pain::pain_001_001_11::Document<Dmkr, Dmkr>),
@@ -36,6 +37,33 @@ pub enum Document {
     pain_018_001_03(iso_20022_pain::pain_018_001_03::Document<Dmkr, Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::pain_001_001_11(d) => d.xmlns = iso_20022_pain::pain_001_001_11::namespace(),
+            Self::pain_002_001_12(d) => d.xmlns = iso_20022_pain::pain_002_001_12::namespace(),
+            Self::pain_007_001_11(d) => d.xmlns = iso_20022_pain::pain_007_001_11::namespace(),
+            Self::pain_008_001_10(d) => d.xmlns = iso_20022_pain::pain_008_001_10::namespace(),
+            Self::pain_009_001_07(d) => d.xmlns = iso_20022_pain::pain_009_001_07::namespace(),
+            Self::pain_010_001_07(d) => d.xmlns = iso_20022_pain::pain_010_001_07::namespace(),
+            Self::pain_011_001_07(d) => d.xmlns = iso_20022_pain::pain_011_001_07::namespace(),
+            Self::pain_012_001_07(d) => d.xmlns = iso_20022_pain::pain_012_001_07::namespace(),
+            Self::pain_013_001_10(d) => d.xmlns = iso_20022_pain::pain_013_001_10::namespace(),
+            Self::pain_014_001_10(d) => d.xmlns = iso_20022_pain::pain_014_001_10::namespace(),
+            Self::pain_017_001_03(d) => d.xmlns = iso_20022_pain::pain_017_001_03::namespace(),
+            Self::pain_018_001_03(d) => d.xmlns = iso_20022_pain::pain_018_001_03::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -59,6 +87,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

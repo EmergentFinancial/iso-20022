@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_cafr::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // cafr
     cafr_001_001_02(iso_20022_cafr::cafr_001_001_02::Document<Dmkr>),
@@ -28,6 +29,25 @@ pub enum Document {
     cafr_004_001_02(iso_20022_cafr::cafr_004_001_02::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::cafr_001_001_02(d) => d.xmlns = iso_20022_cafr::cafr_001_001_02::namespace(),
+            Self::cafr_002_001_02(d) => d.xmlns = iso_20022_cafr::cafr_002_001_02::namespace(),
+            Self::cafr_003_001_02(d) => d.xmlns = iso_20022_cafr::cafr_003_001_02::namespace(),
+            Self::cafr_004_001_02(d) => d.xmlns = iso_20022_cafr::cafr_004_001_02::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -43,6 +63,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

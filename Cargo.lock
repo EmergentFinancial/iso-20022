@@ -33,6 +33,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4c7f02d4ea65f2c1853089ffd8d2787bdbc63de2f0d29dedbcf8ccdfa0ccd4cf"
 
 [[package]]
+name = "base64"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4a4ddaa51a5bc52a6948f74c06d20aaaddb71924eab79b8c97a8c556e942d6a"
+
+[[package]]
 name = "base64ct"
 version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -215,11 +221,12 @@ dependencies = [
 
 [[package]]
 name = "der"
-version = "0.7.3"
+version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "82b10af9f9f9f2134a42d3f8aa74658660f2e0234b0eb81bd171df8aa32779ed"
+checksum = "56acb310e15652100da43d130af8d97b509e95af61aab1c5a7939ef24337ee17"
 dependencies = [
  "const-oid",
+ "pem-rfc7468",
  "zeroize",
 ]
 
@@ -291,6 +298,7 @@ dependencies = [
  "ff",
  "generic-array",
  "group",
+ "pem-rfc7468",
  "pkcs8",
  "rand_core",
  "sec1",
@@ -763,26 +771,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "iso-20022-head"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d773dae8f1873743fb5edc86aa4e285bcab6045ba7d6ccfa203f02ffb90a512c"
-dependencies = [
- "chrono",
- "derive_builder",
- "lazy_static",
- "regex",
- "serde",
- "serde-xml-rs",
- "validator",
- "xml-rs",
-]
-
-[[package]]
 name = "iso-20022-nvlp"
 version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "91dd6f6fb2977e5dc97cf2d08ab2468d5e430b98925be5d9a50148e7355252a3"
 dependencies = [
  "chrono",
  "derive_builder",
@@ -862,8 +852,9 @@ dependencies = [
 name = "iso-20022-sdk"
 version = "0.1.0"
 dependencies = [
+ "base64",
  "chrono",
- "const-oid",
+ "der",
  "derive_builder",
  "elliptic-curve",
  "format_xml",
@@ -887,7 +878,7 @@ dependencies = [
  "iso-20022-colr",
  "iso-20022-dsig",
  "iso-20022-fxtr",
- "iso-20022-head 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "iso-20022-head",
  "iso-20022-nvlp",
  "iso-20022-pacs",
  "iso-20022-pain",
@@ -904,6 +895,7 @@ dependencies = [
  "lazy_static",
  "p256",
  "quick-xml",
+ "rand_core",
  "regex",
  "serde",
  "sha2",
@@ -1001,7 +993,7 @@ name = "iso-20022-tests"
 version = "0.1.0"
 dependencies = [
  "iso-20022-dsig",
- "iso-20022-head 0.1.0",
+ "iso-20022-head",
 ]
 
 [[package]]
@@ -1144,6 +1136,15 @@ dependencies = [
  "elliptic-curve",
  "primeorder",
  "sha2",
+]
+
+[[package]]
+name = "pem-rfc7468"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "88b39c9bfcfc231068454382784bb460aae594343fb030d46e9f50a645418412"
+dependencies = [
+ "base64ct",
 ]
 
 [[package]]
@@ -1363,9 +1364,9 @@ dependencies = [
 
 [[package]]
 name = "spki"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "37a5be806ab6f127c3da44b7378837ebf01dadca8510a0e572460216b228bd0e"
+checksum = "9d1e996ef02c474957d681f1b05213dfb0abab947b446a62d37770b23500184a"
 dependencies = [
  "base64ct",
  "der",

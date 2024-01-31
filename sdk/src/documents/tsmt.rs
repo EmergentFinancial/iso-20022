@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_tsmt::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // tsmt
     tsmt_001_001_03(iso_20022_tsmt::tsmt_001_001_03::Document),
@@ -76,6 +77,73 @@ pub enum Document {
     tsmt_055_001_01(iso_20022_tsmt::tsmt_055_001_01::Document<Dmkr, Dmkr, Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::tsmt_001_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_001_001_03::namespace(),
+            Self::tsmt_002_001_04(d) => d.xmlns = iso_20022_tsmt::tsmt_002_001_04::namespace(),
+            Self::tsmt_003_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_003_001_03::namespace(),
+            Self::tsmt_004_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_004_001_02::namespace(),
+            Self::tsmt_005_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_005_001_02::namespace(),
+            Self::tsmt_006_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_006_001_03::namespace(),
+            Self::tsmt_007_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_007_001_02::namespace(),
+            Self::tsmt_008_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_008_001_03::namespace(),
+            Self::tsmt_009_001_05(d) => d.xmlns = iso_20022_tsmt::tsmt_009_001_05::namespace(),
+            Self::tsmt_010_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_010_001_03::namespace(),
+            Self::tsmt_011_001_04(d) => d.xmlns = iso_20022_tsmt::tsmt_011_001_04::namespace(),
+            Self::tsmt_012_001_05(d) => d.xmlns = iso_20022_tsmt::tsmt_012_001_05::namespace(),
+            Self::tsmt_013_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_013_001_03::namespace(),
+            Self::tsmt_014_001_05(d) => d.xmlns = iso_20022_tsmt::tsmt_014_001_05::namespace(),
+            Self::tsmt_015_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_015_001_03::namespace(),
+            Self::tsmt_016_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_016_001_03::namespace(),
+            Self::tsmt_017_001_05(d) => d.xmlns = iso_20022_tsmt::tsmt_017_001_05::namespace(),
+            Self::tsmt_018_001_05(d) => d.xmlns = iso_20022_tsmt::tsmt_018_001_05::namespace(),
+            Self::tsmt_019_001_05(d) => d.xmlns = iso_20022_tsmt::tsmt_019_001_05::namespace(),
+            Self::tsmt_020_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_020_001_02::namespace(),
+            Self::tsmt_021_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_021_001_03::namespace(),
+            Self::tsmt_022_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_022_001_02::namespace(),
+            Self::tsmt_023_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_023_001_03::namespace(),
+            Self::tsmt_024_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_024_001_03::namespace(),
+            Self::tsmt_025_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_025_001_03::namespace(),
+            Self::tsmt_026_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_026_001_02::namespace(),
+            Self::tsmt_027_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_027_001_02::namespace(),
+            Self::tsmt_028_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_028_001_03::namespace(),
+            Self::tsmt_029_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_029_001_02::namespace(),
+            Self::tsmt_030_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_030_001_03::namespace(),
+            Self::tsmt_031_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_031_001_03::namespace(),
+            Self::tsmt_032_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_032_001_03::namespace(),
+            Self::tsmt_033_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_033_001_03::namespace(),
+            Self::tsmt_034_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_034_001_03::namespace(),
+            Self::tsmt_035_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_035_001_03::namespace(),
+            Self::tsmt_036_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_036_001_03::namespace(),
+            Self::tsmt_038_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_038_001_03::namespace(),
+            Self::tsmt_040_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_040_001_03::namespace(),
+            Self::tsmt_041_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_041_001_03::namespace(),
+            Self::tsmt_042_001_03(d) => d.xmlns = iso_20022_tsmt::tsmt_042_001_03::namespace(),
+            Self::tsmt_044_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_044_001_02::namespace(),
+            Self::tsmt_045_001_02(d) => d.xmlns = iso_20022_tsmt::tsmt_045_001_02::namespace(),
+            Self::tsmt_046_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_046_001_01::namespace(),
+            Self::tsmt_047_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_047_001_01::namespace(),
+            Self::tsmt_048_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_048_001_01::namespace(),
+            Self::tsmt_049_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_049_001_01::namespace(),
+            Self::tsmt_050_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_050_001_01::namespace(),
+            Self::tsmt_051_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_051_001_01::namespace(),
+            Self::tsmt_052_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_052_001_01::namespace(),
+            Self::tsmt_053_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_053_001_01::namespace(),
+            Self::tsmt_054_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_054_001_01::namespace(),
+            Self::tsmt_055_001_01(d) => d.xmlns = iso_20022_tsmt::tsmt_055_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -139,6 +207,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_seev::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // seev
     seev_001_001_09(iso_20022_seev::seev_001_001_09::Document<Dmkr>),
@@ -89,6 +90,86 @@ pub enum Document {
     seev_053_001_01(iso_20022_seev::seev_053_001_01::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::seev_001_001_09(d) => d.xmlns = iso_20022_seev::seev_001_001_09::namespace(),
+            Self::seev_002_001_08(d) => d.xmlns = iso_20022_seev::seev_002_001_08::namespace(),
+            Self::seev_003_001_08(d) => d.xmlns = iso_20022_seev::seev_003_001_08::namespace(),
+            Self::seev_004_001_08(d) => d.xmlns = iso_20022_seev::seev_004_001_08::namespace(),
+            Self::seev_005_001_08(d) => d.xmlns = iso_20022_seev::seev_005_001_08::namespace(),
+            Self::seev_006_001_08(d) => d.xmlns = iso_20022_seev::seev_006_001_08::namespace(),
+            Self::seev_007_001_08(d) => d.xmlns = iso_20022_seev::seev_007_001_08::namespace(),
+            Self::seev_008_001_07(d) => d.xmlns = iso_20022_seev::seev_008_001_07::namespace(),
+            Self::seev_009_001_01(d) => d.xmlns = iso_20022_seev::seev_009_001_01::namespace(),
+            Self::seev_010_001_01(d) => d.xmlns = iso_20022_seev::seev_010_001_01::namespace(),
+            Self::seev_011_001_01(d) => d.xmlns = iso_20022_seev::seev_011_001_01::namespace(),
+            Self::seev_012_001_01(d) => d.xmlns = iso_20022_seev::seev_012_001_01::namespace(),
+            Self::seev_013_001_01(d) => d.xmlns = iso_20022_seev::seev_013_001_01::namespace(),
+            Self::seev_014_001_01(d) => d.xmlns = iso_20022_seev::seev_014_001_01::namespace(),
+            Self::seev_015_001_01(d) => d.xmlns = iso_20022_seev::seev_015_001_01::namespace(),
+            Self::seev_016_001_01(d) => d.xmlns = iso_20022_seev::seev_016_001_01::namespace(),
+            Self::seev_017_001_01(d) => d.xmlns = iso_20022_seev::seev_017_001_01::namespace(),
+            Self::seev_018_001_01(d) => d.xmlns = iso_20022_seev::seev_018_001_01::namespace(),
+            Self::seev_019_001_01(d) => d.xmlns = iso_20022_seev::seev_019_001_01::namespace(),
+            Self::seev_020_001_01(d) => d.xmlns = iso_20022_seev::seev_020_001_01::namespace(),
+            Self::seev_021_001_01(d) => d.xmlns = iso_20022_seev::seev_021_001_01::namespace(),
+            Self::seev_022_001_01(d) => d.xmlns = iso_20022_seev::seev_022_001_01::namespace(),
+            Self::seev_023_001_01(d) => d.xmlns = iso_20022_seev::seev_023_001_01::namespace(),
+            Self::seev_024_001_01(d) => d.xmlns = iso_20022_seev::seev_024_001_01::namespace(),
+            Self::seev_025_001_01(d) => d.xmlns = iso_20022_seev::seev_025_001_01::namespace(),
+            Self::seev_026_001_01(d) => d.xmlns = iso_20022_seev::seev_026_001_01::namespace(),
+            Self::seev_027_001_01(d) => d.xmlns = iso_20022_seev::seev_027_001_01::namespace(),
+            Self::seev_028_001_01(d) => d.xmlns = iso_20022_seev::seev_028_001_01::namespace(),
+            Self::seev_029_001_01(d) => d.xmlns = iso_20022_seev::seev_029_001_01::namespace(),
+            Self::seev_030_001_01(d) => d.xmlns = iso_20022_seev::seev_030_001_01::namespace(),
+            Self::seev_031_001_12(d) => d.xmlns = iso_20022_seev::seev_031_001_12::namespace(),
+            Self::seev_031_002_12(d) => d.xmlns = iso_20022_seev::seev_031_002_12::namespace(),
+            Self::seev_032_001_08(d) => d.xmlns = iso_20022_seev::seev_032_001_08::namespace(),
+            Self::seev_032_002_08(d) => d.xmlns = iso_20022_seev::seev_032_002_08::namespace(),
+            Self::seev_033_001_12(d) => d.xmlns = iso_20022_seev::seev_033_001_12::namespace(),
+            Self::seev_033_002_12(d) => d.xmlns = iso_20022_seev::seev_033_002_12::namespace(),
+            Self::seev_034_001_13(d) => d.xmlns = iso_20022_seev::seev_034_001_13::namespace(),
+            Self::seev_034_002_13(d) => d.xmlns = iso_20022_seev::seev_034_002_13::namespace(),
+            Self::seev_035_001_13(d) => d.xmlns = iso_20022_seev::seev_035_001_13::namespace(),
+            Self::seev_035_002_13(d) => d.xmlns = iso_20022_seev::seev_035_002_13::namespace(),
+            Self::seev_036_001_13(d) => d.xmlns = iso_20022_seev::seev_036_001_13::namespace(),
+            Self::seev_036_002_13(d) => d.xmlns = iso_20022_seev::seev_036_002_13::namespace(),
+            Self::seev_037_001_13_0(d) => d.xmlns = iso_20022_seev::seev_037_001_13_0::namespace(),
+            Self::seev_037_002_13(d) => d.xmlns = iso_20022_seev::seev_037_002_13::namespace(),
+            Self::seev_038_001_07(d) => d.xmlns = iso_20022_seev::seev_038_001_07::namespace(),
+            Self::seev_038_002_07(d) => d.xmlns = iso_20022_seev::seev_038_002_07::namespace(),
+            Self::seev_039_001_11(d) => d.xmlns = iso_20022_seev::seev_039_001_11::namespace(),
+            Self::seev_039_002_11(d) => d.xmlns = iso_20022_seev::seev_039_002_11::namespace(),
+            Self::seev_040_001_11(d) => d.xmlns = iso_20022_seev::seev_040_001_11::namespace(),
+            Self::seev_040_002_11(d) => d.xmlns = iso_20022_seev::seev_040_002_11::namespace(),
+            Self::seev_041_001_12(d) => d.xmlns = iso_20022_seev::seev_041_001_12::namespace(),
+            Self::seev_041_002_12(d) => d.xmlns = iso_20022_seev::seev_041_002_12::namespace(),
+            Self::seev_042_001_11(d) => d.xmlns = iso_20022_seev::seev_042_001_11::namespace(),
+            Self::seev_042_002_11(d) => d.xmlns = iso_20022_seev::seev_042_002_11::namespace(),
+            Self::seev_044_001_11(d) => d.xmlns = iso_20022_seev::seev_044_001_11::namespace(),
+            Self::seev_044_002_11(d) => d.xmlns = iso_20022_seev::seev_044_002_11::namespace(),
+            Self::seev_045_001_03(d) => d.xmlns = iso_20022_seev::seev_045_001_03::namespace(),
+            Self::seev_046_001_01(d) => d.xmlns = iso_20022_seev::seev_046_001_01::namespace(),
+            Self::seev_047_001_02(d) => d.xmlns = iso_20022_seev::seev_047_001_02::namespace(),
+            Self::seev_048_001_01(d) => d.xmlns = iso_20022_seev::seev_048_001_01::namespace(),
+            Self::seev_049_001_01(d) => d.xmlns = iso_20022_seev::seev_049_001_01::namespace(),
+            Self::seev_050_001_01(d) => d.xmlns = iso_20022_seev::seev_050_001_01::namespace(),
+            Self::seev_051_001_01(d) => d.xmlns = iso_20022_seev::seev_051_001_01::namespace(),
+            Self::seev_052_001_01(d) => d.xmlns = iso_20022_seev::seev_052_001_01::namespace(),
+            Self::seev_053_001_01(d) => d.xmlns = iso_20022_seev::seev_053_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -165,6 +246,6 @@ impl TryFrom<&str> for Document {
             _ => return Err(s.to_string()),
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }
