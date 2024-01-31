@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_camt::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // camt
     camt_003_001_07(iso_20022_camt::camt_003_001_07::Document<Dmkr>),
@@ -114,6 +115,111 @@ pub enum Document {
     camt_109_001_01(iso_20022_camt::camt_109_001_01::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::camt_003_001_07(d) => d.xmlns = iso_20022_camt::camt_003_001_07::namespace(),
+            Self::camt_004_001_09(d) => d.xmlns = iso_20022_camt::camt_004_001_09::namespace(),
+            Self::camt_005_001_09(d) => d.xmlns = iso_20022_camt::camt_005_001_09::namespace(),
+            Self::camt_006_001_09(d) => d.xmlns = iso_20022_camt::camt_006_001_09::namespace(),
+            Self::camt_007_001_08(d) => d.xmlns = iso_20022_camt::camt_007_001_08::namespace(),
+            Self::camt_008_001_09(d) => d.xmlns = iso_20022_camt::camt_008_001_09::namespace(),
+            Self::camt_009_001_07(d) => d.xmlns = iso_20022_camt::camt_009_001_07::namespace(),
+            Self::camt_010_001_08(d) => d.xmlns = iso_20022_camt::camt_010_001_08::namespace(),
+            Self::camt_011_001_07(d) => d.xmlns = iso_20022_camt::camt_011_001_07::namespace(),
+            Self::camt_012_001_07(d) => d.xmlns = iso_20022_camt::camt_012_001_07::namespace(),
+            Self::camt_013_001_04(d) => d.xmlns = iso_20022_camt::camt_013_001_04::namespace(),
+            Self::camt_014_001_05(d) => d.xmlns = iso_20022_camt::camt_014_001_05::namespace(),
+            Self::camt_015_001_04(d) => d.xmlns = iso_20022_camt::camt_015_001_04::namespace(),
+            Self::camt_016_001_04(d) => d.xmlns = iso_20022_camt::camt_016_001_04::namespace(),
+            Self::camt_017_001_05(d) => d.xmlns = iso_20022_camt::camt_017_001_05::namespace(),
+            Self::camt_018_001_05(d) => d.xmlns = iso_20022_camt::camt_018_001_05::namespace(),
+            Self::camt_019_001_07(d) => d.xmlns = iso_20022_camt::camt_019_001_07::namespace(),
+            Self::camt_020_001_04(d) => d.xmlns = iso_20022_camt::camt_020_001_04::namespace(),
+            Self::camt_021_001_06(d) => d.xmlns = iso_20022_camt::camt_021_001_06::namespace(),
+            Self::camt_023_001_07(d) => d.xmlns = iso_20022_camt::camt_023_001_07::namespace(),
+            Self::camt_024_001_07(d) => d.xmlns = iso_20022_camt::camt_024_001_07::namespace(),
+            Self::camt_025_001_05(d) => d.xmlns = iso_20022_camt::camt_025_001_05::namespace(),
+            Self::camt_026_001_09(d) => d.xmlns = iso_20022_camt::camt_026_001_09::namespace(),
+            Self::camt_027_001_09(d) => d.xmlns = iso_20022_camt::camt_027_001_09::namespace(),
+            Self::camt_028_001_11(d) => d.xmlns = iso_20022_camt::camt_028_001_11::namespace(),
+            Self::camt_029_001_11(d) => d.xmlns = iso_20022_camt::camt_029_001_11::namespace(),
+            Self::camt_030_001_05(d) => d.xmlns = iso_20022_camt::camt_030_001_05::namespace(),
+            Self::camt_031_001_06(d) => d.xmlns = iso_20022_camt::camt_031_001_06::namespace(),
+            Self::camt_032_001_04(d) => d.xmlns = iso_20022_camt::camt_032_001_04::namespace(),
+            Self::camt_033_001_06(d) => d.xmlns = iso_20022_camt::camt_033_001_06::namespace(),
+            Self::camt_034_001_06(d) => d.xmlns = iso_20022_camt::camt_034_001_06::namespace(),
+            Self::camt_035_001_05(d) => d.xmlns = iso_20022_camt::camt_035_001_05::namespace(),
+            Self::camt_036_001_05(d) => d.xmlns = iso_20022_camt::camt_036_001_05::namespace(),
+            Self::camt_037_001_09(d) => d.xmlns = iso_20022_camt::camt_037_001_09::namespace(),
+            Self::camt_038_001_04(d) => d.xmlns = iso_20022_camt::camt_038_001_04::namespace(),
+            Self::camt_039_001_05(d) => d.xmlns = iso_20022_camt::camt_039_001_05::namespace(),
+            Self::camt_040_001_04(d) => d.xmlns = iso_20022_camt::camt_040_001_04::namespace(),
+            Self::camt_041_001_04(d) => d.xmlns = iso_20022_camt::camt_041_001_04::namespace(),
+            Self::camt_042_001_04(d) => d.xmlns = iso_20022_camt::camt_042_001_04::namespace(),
+            Self::camt_043_001_04(d) => d.xmlns = iso_20022_camt::camt_043_001_04::namespace(),
+            Self::camt_044_001_03(d) => d.xmlns = iso_20022_camt::camt_044_001_03::namespace(),
+            Self::camt_045_001_03(d) => d.xmlns = iso_20022_camt::camt_045_001_03::namespace(),
+            Self::camt_046_001_06(d) => d.xmlns = iso_20022_camt::camt_046_001_06::namespace(),
+            Self::camt_047_001_07(d) => d.xmlns = iso_20022_camt::camt_047_001_07::namespace(),
+            Self::camt_048_001_06(d) => d.xmlns = iso_20022_camt::camt_048_001_06::namespace(),
+            Self::camt_049_001_06(d) => d.xmlns = iso_20022_camt::camt_049_001_06::namespace(),
+            Self::camt_050_001_06(d) => d.xmlns = iso_20022_camt::camt_050_001_06::namespace(),
+            Self::camt_051_001_05(d) => d.xmlns = iso_20022_camt::camt_051_001_05::namespace(),
+            Self::camt_052_001_10(d) => d.xmlns = iso_20022_camt::camt_052_001_10::namespace(),
+            Self::camt_053_001_10(d) => d.xmlns = iso_20022_camt::camt_053_001_10::namespace(),
+            Self::camt_054_001_10(d) => d.xmlns = iso_20022_camt::camt_054_001_10::namespace(),
+            Self::camt_055_001_11(d) => d.xmlns = iso_20022_camt::camt_055_001_11::namespace(),
+            Self::camt_056_001_10(d) => d.xmlns = iso_20022_camt::camt_056_001_10::namespace(),
+            Self::camt_057_001_07(d) => d.xmlns = iso_20022_camt::camt_057_001_07::namespace(),
+            Self::camt_058_001_08(d) => d.xmlns = iso_20022_camt::camt_058_001_08::namespace(),
+            Self::camt_059_001_07(d) => d.xmlns = iso_20022_camt::camt_059_001_07::namespace(),
+            Self::camt_060_001_06(d) => d.xmlns = iso_20022_camt::camt_060_001_06::namespace(),
+            Self::camt_061_001_02(d) => d.xmlns = iso_20022_camt::camt_061_001_02::namespace(),
+            Self::camt_062_001_03(d) => d.xmlns = iso_20022_camt::camt_062_001_03::namespace(),
+            Self::camt_063_001_02(d) => d.xmlns = iso_20022_camt::camt_063_001_02::namespace(),
+            Self::camt_066_001_01(d) => d.xmlns = iso_20022_camt::camt_066_001_01::namespace(),
+            Self::camt_067_001_01(d) => d.xmlns = iso_20022_camt::camt_067_001_01::namespace(),
+            Self::camt_068_001_01(d) => d.xmlns = iso_20022_camt::camt_068_001_01::namespace(),
+            Self::camt_069_001_04(d) => d.xmlns = iso_20022_camt::camt_069_001_04::namespace(),
+            Self::camt_070_001_05(d) => d.xmlns = iso_20022_camt::camt_070_001_05::namespace(),
+            Self::camt_071_001_04(d) => d.xmlns = iso_20022_camt::camt_071_001_04::namespace(),
+            Self::camt_072_001_01(d) => d.xmlns = iso_20022_camt::camt_072_001_01::namespace(),
+            Self::camt_073_001_01(d) => d.xmlns = iso_20022_camt::camt_073_001_01::namespace(),
+            Self::camt_074_001_01(d) => d.xmlns = iso_20022_camt::camt_074_001_01::namespace(),
+            Self::camt_075_001_01(d) => d.xmlns = iso_20022_camt::camt_075_001_01::namespace(),
+            Self::camt_078_001_01(d) => d.xmlns = iso_20022_camt::camt_078_001_01::namespace(),
+            Self::camt_079_001_01(d) => d.xmlns = iso_20022_camt::camt_079_001_01::namespace(),
+            Self::camt_080_001_01(d) => d.xmlns = iso_20022_camt::camt_080_001_01::namespace(),
+            Self::camt_081_001_01(d) => d.xmlns = iso_20022_camt::camt_081_001_01::namespace(),
+            Self::camt_082_001_01(d) => d.xmlns = iso_20022_camt::camt_082_001_01::namespace(),
+            Self::camt_083_001_01(d) => d.xmlns = iso_20022_camt::camt_083_001_01::namespace(),
+            Self::camt_084_001_01(d) => d.xmlns = iso_20022_camt::camt_084_001_01::namespace(),
+            Self::camt_085_001_01(d) => d.xmlns = iso_20022_camt::camt_085_001_01::namespace(),
+            Self::camt_086_001_04(d) => d.xmlns = iso_20022_camt::camt_086_001_04::namespace(),
+            Self::camt_087_001_08(d) => d.xmlns = iso_20022_camt::camt_087_001_08::namespace(),
+            Self::camt_088_001_01(d) => d.xmlns = iso_20022_camt::camt_088_001_01::namespace(),
+            Self::camt_101_001_01(d) => d.xmlns = iso_20022_camt::camt_101_001_01::namespace(),
+            Self::camt_102_001_02(d) => d.xmlns = iso_20022_camt::camt_102_001_02::namespace(),
+            Self::camt_103_001_02(d) => d.xmlns = iso_20022_camt::camt_103_001_02::namespace(),
+            Self::camt_104_001_01(d) => d.xmlns = iso_20022_camt::camt_104_001_01::namespace(),
+            Self::camt_105_001_01(d) => d.xmlns = iso_20022_camt::camt_105_001_01::namespace(),
+            Self::camt_106_001_01(d) => d.xmlns = iso_20022_camt::camt_106_001_01::namespace(),
+            Self::camt_107_001_01(d) => d.xmlns = iso_20022_camt::camt_107_001_01::namespace(),
+            Self::camt_108_001_01(d) => d.xmlns = iso_20022_camt::camt_108_001_01::namespace(),
+            Self::camt_109_001_01(d) => d.xmlns = iso_20022_camt::camt_109_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -219,6 +325,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

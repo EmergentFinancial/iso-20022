@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_caam::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // caam
     caam_001_001_03(iso_20022_caam::caam_001_001_03::Document),
@@ -36,6 +37,33 @@ pub enum Document {
     caam_012_001_01(iso_20022_caam::caam_012_001_01::Document),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::caam_001_001_03(d) => d.xmlns = iso_20022_caam::caam_001_001_03::namespace(),
+            Self::caam_002_001_03(d) => d.xmlns = iso_20022_caam::caam_002_001_03::namespace(),
+            Self::caam_003_001_03(d) => d.xmlns = iso_20022_caam::caam_003_001_03::namespace(),
+            Self::caam_004_001_03(d) => d.xmlns = iso_20022_caam::caam_004_001_03::namespace(),
+            Self::caam_005_001_02(d) => d.xmlns = iso_20022_caam::caam_005_001_02::namespace(),
+            Self::caam_006_001_02(d) => d.xmlns = iso_20022_caam::caam_006_001_02::namespace(),
+            Self::caam_007_001_01(d) => d.xmlns = iso_20022_caam::caam_007_001_01::namespace(),
+            Self::caam_008_001_01(d) => d.xmlns = iso_20022_caam::caam_008_001_01::namespace(),
+            Self::caam_009_001_02(d) => d.xmlns = iso_20022_caam::caam_009_001_02::namespace(),
+            Self::caam_010_001_02(d) => d.xmlns = iso_20022_caam::caam_010_001_02::namespace(),
+            Self::caam_011_001_01(d) => d.xmlns = iso_20022_caam::caam_011_001_01::namespace(),
+            Self::caam_012_001_01(d) => d.xmlns = iso_20022_caam::caam_012_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -63,6 +91,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

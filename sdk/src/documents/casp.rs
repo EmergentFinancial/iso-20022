@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_casp::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // casp
     casp_001_001_04(iso_20022_casp::casp_001_001_04::Document<Dmkr>),
@@ -41,6 +42,38 @@ pub enum Document {
     casp_017_001_04(iso_20022_casp::casp_017_001_04::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::casp_001_001_04(d) => d.xmlns = iso_20022_casp::casp_001_001_04::namespace(),
+            Self::casp_002_001_04(d) => d.xmlns = iso_20022_casp::casp_002_001_04::namespace(),
+            Self::casp_003_001_04(d) => d.xmlns = iso_20022_casp::casp_003_001_04::namespace(),
+            Self::casp_004_001_04(d) => d.xmlns = iso_20022_casp::casp_004_001_04::namespace(),
+            Self::casp_005_001_04(d) => d.xmlns = iso_20022_casp::casp_005_001_04::namespace(),
+            Self::casp_006_001_04(d) => d.xmlns = iso_20022_casp::casp_006_001_04::namespace(),
+            Self::casp_007_001_04(d) => d.xmlns = iso_20022_casp::casp_007_001_04::namespace(),
+            Self::casp_008_001_04(d) => d.xmlns = iso_20022_casp::casp_008_001_04::namespace(),
+            Self::casp_009_001_04(d) => d.xmlns = iso_20022_casp::casp_009_001_04::namespace(),
+            Self::casp_010_001_04(d) => d.xmlns = iso_20022_casp::casp_010_001_04::namespace(),
+            Self::casp_011_001_04(d) => d.xmlns = iso_20022_casp::casp_011_001_04::namespace(),
+            Self::casp_012_001_04(d) => d.xmlns = iso_20022_casp::casp_012_001_04::namespace(),
+            Self::casp_013_001_02(d) => d.xmlns = iso_20022_casp::casp_013_001_02::namespace(),
+            Self::casp_014_001_04(d) => d.xmlns = iso_20022_casp::casp_014_001_04::namespace(),
+            Self::casp_015_001_04(d) => d.xmlns = iso_20022_casp::casp_015_001_04::namespace(),
+            Self::casp_016_001_04(d) => d.xmlns = iso_20022_casp::casp_016_001_04::namespace(),
+            Self::casp_017_001_04(d) => d.xmlns = iso_20022_casp::casp_017_001_04::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -73,6 +106,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

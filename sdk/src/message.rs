@@ -80,8 +80,11 @@
 //! ```
 use std::io::BufReader;
 
+use crate::documents::{Dmkr, Document};
+use crate::dsig::xpath::XPath;
 use crate::head::head_001_001_03::{self as head};
 use crate::nvlp::nvlp_001_001_01::{self as nvlp};
+use crate::prelude::MessageSigner;
 
 use serde::{Deserialize, Serialize};
 use sxd_document::parser;
@@ -89,12 +92,13 @@ use sxd_xpath::evaluate_xpath;
 use validator::Validate;
 use xml::{reader::XmlEvent, EventReader};
 
-use crate::crypto::Signature;
-use crate::documents::{Dmkr, Document};
+/// Default Business Message Identifier
+/// ISO 20022 messages have a root `Document`
+/// element.
+const DEFAULT_BIZ_MSG_IDR: &str = "Document";
 
 /// Default Envelope Type
-pub type DefaultMsgEnvlp =
-    nvlp::BizMsgEnvlp<head::AppHdr<Signature, Signature>, Document, Dmkr, Dmkr>;
+pub type DefaultMsgEnvlp<Sig> = nvlp::BizMsgEnvlp<head::AppHdr<Sig, Sig>, Document, Dmkr, Dmkr>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -104,10 +108,16 @@ pub enum Error {
     /// SXD Document Error
     #[error(transparent)]
     XsdDocument(#[from] sxd_document::parser::Error),
-    /// SXD XPath Error
+    // /// SXD XPath Error
+    // #[error(transparent)]
+    // XsdXPath(#[from] sxd_xpath::Error),
+    // /// Signing Error
+    // #[error(transparent)]
+    // Signing(#[from] signature::Error),
+    /// Crypto Signing Error
     #[error(transparent)]
-    XsdXPath(#[from] sxd_xpath::Error),
-    /// Signing Error
+    Crypto(#[from] crate::crypto::Error),
+    /// Message Signer Error
     #[error(transparent)]
     Signing(#[from] signature::Error),
     /// Validation Error
@@ -122,12 +132,22 @@ pub enum Error {
     /// Serde JSON Error
     #[error(transparent)]
     SerdeJson(#[from] serde_json::Error),
+    /// Invalid Document Type
+    #[error("Invalid Document Type")]
+    InvalidDocumentType,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Message<
     'a,
     Doc: std::fmt::Debug
+        + Default
+        + Clone
+        + PartialEq
+        + ::serde::Serialize
+        // + ::serde::Deserialize<'a>
+        + ::validator::Validate,
+    Sig: std::fmt::Debug
         + Default
         + Clone
         + PartialEq
@@ -143,10 +163,10 @@ pub struct Message<
     /// inner type.
     pub xml_string: &'a str,
     /// Internal representation of the message envelope
-    pub inner: nvlp::BizMsgEnvlp<head::AppHdr<Signature, Signature>, Doc, Dmkr, Dmkr>,
+    pub inner: nvlp::BizMsgEnvlp<head::AppHdr<Sig, Sig>, Doc, Dmkr, Dmkr>,
 }
 
-impl<'a, Doc> Message<'a, Doc>
+impl<'a, Doc, Sig> Message<'a, Doc, Sig>
 where
     Doc: std::fmt::Debug
         + Default
@@ -155,7 +175,52 @@ where
         + ::serde::Serialize
         + ::serde::Deserialize<'a>
         + ::validator::Validate,
+    Sig: std::fmt::Debug
+        + Default
+        + Clone
+        + PartialEq
+        + ::serde::Serialize
+        + ::serde::Deserialize<'a>
+        + ::validator::Validate
+        + crate::crypto::XmlSignature,
 {
+    /// `msgIdr` refers to the `MsgDefIdr` field of the `AppHdr` element
+    /// of the message envelope. E.g. pacs.008.001.10
+    pub fn new(
+        msg_id: &str,
+        recipient_id: &str,
+        sender_id: &str,
+    ) -> Result<Message<'a, Doc, Sig>, Error> {
+        let msg = Message::<Doc, Sig>::builder()
+            .set_cre_dt()
+            .set_msg_def_idr(head::Max35Text {
+                value: msg_id.to_string(),
+            })
+            .set_biz_msg_idr(head::Max35Text {
+                value: DEFAULT_BIZ_MSG_IDR.to_string(),
+            })
+            .set_recipient_org_id(head::OrganisationIdentification29 {
+                othr: vec![head::GenericOrganisationIdentification1 {
+                    id: head::Max35Text {
+                        value: recipient_id.to_string(),
+                    },
+                    ..Default::default()
+                }],
+                ..Default::default()
+            })
+            .set_sender_org_id(head::OrganisationIdentification29 {
+                othr: vec![head::GenericOrganisationIdentification1 {
+                    id: head::Max35Text {
+                        value: sender_id.to_string(),
+                    },
+                    ..Default::default()
+                }],
+                ..Default::default()
+            });
+
+        Ok(msg)
+    }
+
     pub fn builder() -> Self {
         let envlp = Self::default();
 
@@ -164,13 +229,13 @@ where
     }
 
     /// Return the application header from the message envelope
-    pub fn app_hdr(&self) -> Option<head::AppHdr<Signature, Signature>> {
+    pub fn app_hdr(&self) -> Option<head::AppHdr<Sig, Sig>> {
         self.inner.value.hdr.clone().map(|hdr| hdr.value)
     }
 
     /// Set the application header AppHdr of the message
     /// Note, this will overwrite the existing AppHdr
-    pub fn set_app_hdr(self, app_hdr: head::AppHdr<Signature, Signature>) -> Self {
+    pub fn set_app_hdr(self, app_hdr: head::AppHdr<Sig, Sig>) -> Self {
         let mut msg = self;
 
         // Set the AppHdr
@@ -386,24 +451,18 @@ where
     ///
     ///
     /// ```
+    ///
+    /// NOTE: The implemented `signer` must return a signature that implements the
+    /// `XmlSignature` trait.
     pub fn sign_document(
         self,
-        signer: impl signature::Signer<Signature>,
-        xpath: Option<&str>,
+        signer: MessageSigner<Doc, Sig, impl signature::Signer<Sig>>,
+        x_path_transformations: Vec<XPath>,
     ) -> Result<Self, Error> {
-        let xml = quick_xml::se::to_string(&self.document())?;
-        let package = parser::parse(&xml)?;
-        let doc = package.as_document();
-
-        // By default, sign the entire document
-        let xpath = xpath.unwrap_or("/Document");
-        let data = evaluate_xpath(&doc, xpath)?.into_string();
-
-        // TODO, hash the data before signing
-        let data = data.as_bytes();
-
-        // Sign the xpath data
-        let signature = signer.try_sign(data)?;
+        let signature = signer
+            .set_document(self.document())
+            .set_x_path_data(x_path_transformations)?
+            .try_sign()?;
 
         // Set the signature in the application header
         let mut app_hdr = self.app_hdr().unwrap_or_default();
@@ -414,7 +473,7 @@ where
     }
 
     /// Set the related business reference of the message.
-    pub fn set_rltd(self, rltd: head::BusinessApplicationHeader7<Signature>) -> Self {
+    pub fn set_rltd(self, rltd: head::BusinessApplicationHeader7<Sig>) -> Self {
         let mut app_hdr = self.app_hdr().unwrap_or_default();
         app_hdr.value.rltd.push(rltd);
 
@@ -432,6 +491,13 @@ where
         self.inner.validate()?;
 
         Ok(())
+    }
+
+    /// Return the signature of the envelope.
+    pub fn signature(&self) -> Option<Sig> {
+        self.app_hdr()
+            .and_then(|app_hdr| app_hdr.value.sgntr)
+            .map(|sgntr| sgntr.value)
     }
 
     /// Return the serialized xml string of the inner type.
@@ -461,6 +527,8 @@ where
         // Use xml-reader to parse the xml string and find the `MsgDefIdr` element in the `head.001.001.03` namespace.
         let buf_reader = BufReader::new(self.xml_string.as_bytes());
         let event_reader = EventReader::new(buf_reader);
+
+        println!("Parsing xml string...");
 
         for e in event_reader {
             match e {
@@ -523,41 +591,46 @@ where
 
 #[cfg(test)]
 mod tests {
+    use iso_20022_pacs::pacs_008_001_10::FiToFiCustomerCreditTransferV10;
+    // use signature::Signer;
+
     use super::*;
+    use crate::prelude::{
+        ecdsa::{EcdsaSignature, EcdsaSigner},
+        pacs, DocumentType, MessageSigner,
+    };
 
     #[test]
     fn test_message_builder() -> Result<(), Error> {
-        let mut doc = iso_20022_pacs::pacs_008_001_10::Document::<Dmkr, Dmkr>::default();
+        // Create a random P256 Message Signer
+        let signer = MessageSigner::random_p256();
 
-        doc.xmlns = iso_20022_pacs::pacs_008_001_10::namespace();
+        // Message Details
+        let msg_id = "pacs.008.001.10";
+        let recipient_id = "b3033215-3a30-48ee-b194-5c02e08a5fb3";
+        let sender_id = "b3033215-3a30-48ee-b194-5c02e08a5fb3";
 
-        let msg = Message::<_>::builder()
-            .set_cre_dt()
-            .set_msg_def_idr(head::Max35Text {
-                value: "pacs.008.001.10".to_string(),
-            })
-            .set_biz_msg_idr(head::Max35Text {
-                value: "Document".to_string(),
-            })
-            .set_recipient_org_id(head::OrganisationIdentification29 {
-                othr: vec![head::GenericOrganisationIdentification1 {
-                    id: head::Max35Text {
-                        value: "b3033215-3a30-48ee-b194-5c02e08a5fb3".to_string(),
-                    },
-                    ..Default::default()
-                }],
+        // Create a document
+        // Alternativately, you can create a document from a string
+        // e.g., Document::from_namespace("pacs.008.001.10");
+        // However, this will require dereferencing the inner document
+        // value before mutating the document.
+        // It is preferable to use the `DocumentType::pacs` method below
+        // to construct documents.
+        let doc = pacs::pacs_008_001_10::Document::<Dmkr, Dmkr> {
+            // Add your document elements here...
+            fi_to_fi_cstmr_cdt_trf: FiToFiCustomerCreditTransferV10 {
                 ..Default::default()
-            })
-            .set_sender_org_id(head::OrganisationIdentification29 {
-                othr: vec![head::GenericOrganisationIdentification1 {
-                    id: head::Max35Text {
-                        value: "b3033215-3a30-48ee-b194-5c02e08a5fb3".to_string(),
-                    },
-                    ..Default::default()
-                }],
-                ..Default::default()
-            })
-            .set_document(doc);
+            },
+            xmlns: pacs::pacs_008_001_10::namespace(),
+        };
+
+        // Create the message with the msg_id, recipient_id, and sender_id
+        let msg = Message::<_, _>::new(msg_id, recipient_id, sender_id)?
+            // Set the document
+            .set_document(doc)
+            // Sign the document
+            .sign_document(signer, vec![])?;
 
         // Validate the message
         msg.validate()?;
@@ -576,19 +649,21 @@ mod tests {
         println!("json: {:?}", json);
 
         let msg =
-            Message::<iso_20022_pacs::pacs_008_001_10::Document<Dmkr, Dmkr>>::from_json(&json)?;
+            Message::<pacs::pacs_008_001_10::Document<Dmkr, Dmkr>, EcdsaSignature>::from_json(
+                &json,
+            )?;
 
-        println!("msg: {:?}", msg);
+        // println!("msg: {:?}", msg);
 
         Ok(())
     }
 
     #[test]
     fn test_parse_message() -> Result<(), Error> {
-        let file = std::fs::read_to_string("examples/nvlp.xml").expect("Unable to read file");
+        let file = std::fs::read_to_string("examples/pacs.xml").expect("Unable to read file");
+        let msg = Message::<Document, EcdsaSignature>::from_xml(&file)?;
 
-        // println!("file: {}", file);
-        let _msg = Message::<Dmkr>::from_xml(&file)?;
+        println!("msg: {:?}", msg);
 
         Ok(())
     }

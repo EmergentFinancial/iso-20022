@@ -437,11 +437,11 @@ pub struct BusinessApplicationHeader7<
     ::derive_builder::Builder,
     ::validator::Validate,
 )]
-#[serde(transparent)]
 pub struct AppHdr<
     A: std::fmt::Debug + Default + Clone + PartialEq + ::serde::Serialize + ::validator::Validate,
     B: std::fmt::Debug + Default + Clone + PartialEq + ::serde::Serialize + ::validator::Validate,
 > {
+    #[serde(rename = "AppHdr")]
     pub value: BusinessApplicationHeaderV03<A, B>,
 }
 #[derive(

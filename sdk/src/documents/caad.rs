@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_caad::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // caad
     caad_001_001_02(iso_20022_caad::caad_001_001_02::Document<Dmkr>),
@@ -34,6 +35,31 @@ pub enum Document {
     caad_010_001_01(iso_20022_caad::caad_010_001_01::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::caad_001_001_02(d) => d.xmlns = iso_20022_caad::caad_001_001_02::namespace(),
+            Self::caad_002_001_02(d) => d.xmlns = iso_20022_caad::caad_002_001_02::namespace(),
+            Self::caad_003_001_02(d) => d.xmlns = iso_20022_caad::caad_003_001_02::namespace(),
+            Self::caad_004_001_02(d) => d.xmlns = iso_20022_caad::caad_004_001_02::namespace(),
+            Self::caad_005_001_03(d) => d.xmlns = iso_20022_caad::caad_005_001_03::namespace(),
+            Self::caad_006_001_03(d) => d.xmlns = iso_20022_caad::caad_006_001_03::namespace(),
+            Self::caad_007_001_03(d) => d.xmlns = iso_20022_caad::caad_007_001_03::namespace(),
+            Self::caad_008_001_01(d) => d.xmlns = iso_20022_caad::caad_008_001_01::namespace(),
+            Self::caad_009_001_01(d) => d.xmlns = iso_20022_caad::caad_009_001_01::namespace(),
+            Self::caad_010_001_01(d) => d.xmlns = iso_20022_caad::caad_010_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -59,6 +85,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

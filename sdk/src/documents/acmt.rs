@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_acmt::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     acmt_001_001_08(iso_20022_acmt::acmt_001_001_08::Document),
     acmt_002_001_08(iso_20022_acmt::acmt_002_001_08::Document),
@@ -57,6 +58,55 @@ pub enum Document {
     acmt_037_001_02(iso_20022_acmt::acmt_037_001_02::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::acmt_001_001_08(d) => d.xmlns = iso_20022_acmt::acmt_001_001_08::namespace(),
+            Self::acmt_002_001_08(d) => d.xmlns = iso_20022_acmt::acmt_002_001_08::namespace(),
+            Self::acmt_003_001_08(d) => d.xmlns = iso_20022_acmt::acmt_003_001_08::namespace(),
+            Self::acmt_005_001_06(d) => d.xmlns = iso_20022_acmt::acmt_005_001_06::namespace(),
+            Self::acmt_006_001_07(d) => d.xmlns = iso_20022_acmt::acmt_006_001_07::namespace(),
+            Self::acmt_007_001_04(d) => d.xmlns = iso_20022_acmt::acmt_007_001_04::namespace(),
+            Self::acmt_008_001_04(d) => d.xmlns = iso_20022_acmt::acmt_008_001_04::namespace(),
+            Self::acmt_009_001_03(d) => d.xmlns = iso_20022_acmt::acmt_009_001_03::namespace(),
+            Self::acmt_010_001_03(d) => d.xmlns = iso_20022_acmt::acmt_010_001_03::namespace(),
+            Self::acmt_011_001_03(d) => d.xmlns = iso_20022_acmt::acmt_011_001_03::namespace(),
+            Self::acmt_012_001_03(d) => d.xmlns = iso_20022_acmt::acmt_012_001_03::namespace(),
+            Self::acmt_013_001_03(d) => d.xmlns = iso_20022_acmt::acmt_013_001_03::namespace(),
+            Self::acmt_014_001_04(d) => d.xmlns = iso_20022_acmt::acmt_014_001_04::namespace(),
+            Self::acmt_015_001_03(d) => d.xmlns = iso_20022_acmt::acmt_015_001_03::namespace(),
+            Self::acmt_016_001_03(d) => d.xmlns = iso_20022_acmt::acmt_016_001_03::namespace(),
+            Self::acmt_017_001_03_0(d) => d.xmlns = iso_20022_acmt::acmt_017_001_03_0::namespace(),
+            Self::acmt_018_001_03(d) => d.xmlns = iso_20022_acmt::acmt_018_001_03::namespace(),
+            Self::acmt_019_001_03(d) => d.xmlns = iso_20022_acmt::acmt_019_001_03::namespace(),
+            Self::acmt_020_001_03(d) => d.xmlns = iso_20022_acmt::acmt_020_001_03::namespace(),
+            Self::acmt_021_001_03(d) => d.xmlns = iso_20022_acmt::acmt_021_001_03::namespace(),
+            Self::acmt_022_001_03(d) => d.xmlns = iso_20022_acmt::acmt_022_001_03::namespace(),
+            Self::acmt_023_001_03(d) => d.xmlns = iso_20022_acmt::acmt_023_001_03::namespace(),
+            Self::acmt_024_001_03(d) => d.xmlns = iso_20022_acmt::acmt_024_001_03::namespace(),
+            Self::acmt_027_001_04(d) => d.xmlns = iso_20022_acmt::acmt_027_001_04::namespace(),
+            Self::acmt_028_001_04(d) => d.xmlns = iso_20022_acmt::acmt_028_001_04::namespace(),
+            Self::acmt_029_001_04(d) => d.xmlns = iso_20022_acmt::acmt_029_001_04::namespace(),
+            Self::acmt_030_001_03(d) => d.xmlns = iso_20022_acmt::acmt_030_001_03::namespace(),
+            Self::acmt_031_001_04(d) => d.xmlns = iso_20022_acmt::acmt_031_001_04::namespace(),
+            Self::acmt_032_001_04(d) => d.xmlns = iso_20022_acmt::acmt_032_001_04::namespace(),
+            Self::acmt_033_001_02(d) => d.xmlns = iso_20022_acmt::acmt_033_001_02::namespace(),
+            Self::acmt_034_001_04(d) => d.xmlns = iso_20022_acmt::acmt_034_001_04::namespace(),
+            Self::acmt_035_001_02(d) => d.xmlns = iso_20022_acmt::acmt_035_001_02::namespace(),
+            Self::acmt_036_001_01(d) => d.xmlns = iso_20022_acmt::acmt_036_001_01::namespace(),
+            Self::acmt_037_001_02(d) => d.xmlns = iso_20022_acmt::acmt_037_001_02::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -106,6 +156,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

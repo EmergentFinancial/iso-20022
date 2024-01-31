@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_admi::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // admi
     admi_002_001_01(iso_20022_admi::admi_002_001_01::Document),
@@ -33,6 +34,31 @@ pub enum Document {
     admi_017_001_01(iso_20022_admi::admi_017_001_01::Document),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::admi_002_001_01(d) => d.xmlns = iso_20022_admi::admi_002_001_01::namespace(),
+            Self::admi_004_001_02(d) => d.xmlns = iso_20022_admi::admi_004_001_02::namespace(),
+            Self::admi_005_001_01(d) => d.xmlns = iso_20022_admi::admi_005_001_01::namespace(),
+            Self::admi_006_001_01(d) => d.xmlns = iso_20022_admi::admi_006_001_01::namespace(),
+            Self::admi_007_001_01(d) => d.xmlns = iso_20022_admi::admi_007_001_01::namespace(),
+            Self::admi_009_001_02(d) => d.xmlns = iso_20022_admi::admi_009_001_02::namespace(),
+            Self::admi_010_001_02(d) => d.xmlns = iso_20022_admi::admi_010_001_02::namespace(),
+            Self::admi_011_001_01(d) => d.xmlns = iso_20022_admi::admi_011_001_01::namespace(),
+            Self::admi_017_001_01(d) => d.xmlns = iso_20022_admi::admi_017_001_01::namespace(),
+            Self::acmt_037_001_02(d) => d.xmlns = iso_20022_acmt::acmt_037_001_02::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -57,6 +83,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

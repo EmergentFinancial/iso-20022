@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_catp::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // catp
     catp_001_001_02(iso_20022_catp::catp_001_001_02::Document),
@@ -41,6 +42,38 @@ pub enum Document {
     catp_017_001_01(iso_20022_catp::catp_017_001_01::Document),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::catp_001_001_02(d) => d.xmlns = iso_20022_catp::catp_001_001_02::namespace(),
+            Self::catp_002_001_02(d) => d.xmlns = iso_20022_catp::catp_002_001_02::namespace(),
+            Self::catp_003_001_02(d) => d.xmlns = iso_20022_catp::catp_003_001_02::namespace(),
+            Self::catp_004_001_02(d) => d.xmlns = iso_20022_catp::catp_004_001_02::namespace(),
+            Self::catp_005_001_02(d) => d.xmlns = iso_20022_catp::catp_005_001_02::namespace(),
+            Self::catp_006_001_02(d) => d.xmlns = iso_20022_catp::catp_006_001_02::namespace(),
+            Self::catp_007_001_02(d) => d.xmlns = iso_20022_catp::catp_007_001_02::namespace(),
+            Self::catp_008_001_02(d) => d.xmlns = iso_20022_catp::catp_008_001_02::namespace(),
+            Self::catp_009_001_02(d) => d.xmlns = iso_20022_catp::catp_009_001_02::namespace(),
+            Self::catp_010_001_02(d) => d.xmlns = iso_20022_catp::catp_010_001_02::namespace(),
+            Self::catp_011_001_02(d) => d.xmlns = iso_20022_catp::catp_011_001_02::namespace(),
+            Self::catp_012_001_01(d) => d.xmlns = iso_20022_catp::catp_012_001_01::namespace(),
+            Self::catp_013_001_01(d) => d.xmlns = iso_20022_catp::catp_013_001_01::namespace(),
+            Self::catp_014_001_01(d) => d.xmlns = iso_20022_catp::catp_014_001_01::namespace(),
+            Self::catp_015_001_01(d) => d.xmlns = iso_20022_catp::catp_015_001_01::namespace(),
+            Self::catp_016_001_01(d) => d.xmlns = iso_20022_catp::catp_016_001_01::namespace(),
+            Self::catp_017_001_01(d) => d.xmlns = iso_20022_catp::catp_017_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -73,6 +106,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

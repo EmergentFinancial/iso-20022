@@ -13,13 +13,15 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//
+// See XML-Signature Filter 2.0 schema
+// https://www.w3.org/TR/xmldsig-filter2/
 
-// use iso_20022_dsig::dsig::{Signature, SignatureBuilder};
-// use iso_20022_head::head_001_001_03::*;
-// use iso_20022_nvlp::nvlp_001_001_01::*;
-// use p256::ecdsa::{signature::Signer, Signature as P256Signature, SigningKey};
-// use quick_xml::de::from_str;
-// use quick_xml::se::to_string;
+/// Returns the namespace of the schema
+pub fn namespace() -> String {
+    "http://www.w3.org/2002/04/xmldsig-filter2".to_string()
+}
 
 #[derive(
     Debug,
@@ -28,22 +30,38 @@
     PartialEq,
     ::serde::Serialize,
     ::serde::Deserialize,
-    // ::derive_builder::Builder,
+    ::derive_builder::Builder,
     ::validator::Validate,
 )]
-pub struct P256Sig;
-
-#[cfg(test)]
-mod tests {
-    // use super::*;
-
-    #[test]
-    fn test_p256() {
-        // let sig = SignatureBuilder::p256();
-
-        // let sig = sig.build().ok();
-
-        // println!("sig: {:#?}", sig);
-        // println!("sig: {:?}", to_string(&sig));
-    }
+#[serde(rename = "XPath")]
+pub struct XPathType {
+    #[serde(rename = "$value")]
+    pub value: String,
+    #[serde(rename = "@Filter")]
+    pub filter: FilterType,
+}
+#[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+pub enum FilterType {
+    #[serde(rename = "intersect")]
+    Intersect,
+    #[serde(rename = "subtract")]
+    Subtract,
+    #[serde(rename = "union")]
+    Union,
+    #[default]
+    Unknown,
+}
+#[derive(
+    Debug,
+    Default,
+    Clone,
+    PartialEq,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::derive_builder::Builder,
+    ::validator::Validate,
+)]
+#[serde(transparent)]
+pub struct XPath {
+    pub value: XPathType,
 }

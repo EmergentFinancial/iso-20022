@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_remt::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // remt
     #[serde(rename = "Document")]
@@ -28,6 +29,23 @@ pub enum Document {
     remt_002_001_02(iso_20022_remt::remt_002_001_02::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::remt_001_001_05(d) => d.xmlns = iso_20022_remt::remt_001_001_05::namespace(),
+            Self::remt_002_001_02(d) => d.xmlns = iso_20022_remt::remt_002_001_02::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -45,7 +63,7 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }
 
@@ -136,22 +154,8 @@ pub mod tests {
                         nm: Some(remt_001_001_05::Max140Text {
                             value: "Ryan Tate".into(),
                         }),
-                        phne_nb: None,
-                        mob_nb: Some(remt_001_001_05::PhoneNumber {
-                            value: "+1-206-519-2818".into(),
-                        }),
-                        fax_nb: None,
-                        email_adr: Some(remt_001_001_05::Max2048Text {
-                            value: "ryan.tate@emergent.financial".into(),
-                        }),
-                        email_purp: None,
-                        job_titl: Some(remt_001_001_05::Max35Text {
-                            value: "CEO".into(),
-                        }),
-                        rspnsblty: None,
-                        dept: None,
-                        othr: vec![],
                         prefrd_mtd: Some(remt_001_001_05::PreferredContactMethod1Code::Mail),
+                        ..Default::default()
                     }),
                 },
                 msg_rcpt: None,
@@ -160,16 +164,6 @@ pub mod tests {
             rmt_inf: vec![],
             splmtry_data: vec![],
         });
-
-        // let doc = Document::from_namespace("remt.001.001.05");
-
-        // let xml_string = to_string(&doc).expect("failed to serialize document");
-
-        // println!("xml_string: {}", xml_string);
-
-        // let doc2 = from_str::<remt::Document>(&xml_string).expect("failed to deserialize document");
-
-        // println!("doc2: {:?}", doc2);
 
         Ok(())
     }

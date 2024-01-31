@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_fxtr::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // fxtr
     fxtr_008_001_06(iso_20022_fxtr::fxtr_008_001_06::Document<Dmkr>),
@@ -38,6 +39,35 @@ pub enum Document {
     fxtr_037_001_01(iso_20022_fxtr::fxtr_037_001_01::Document<Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::fxtr_008_001_06(d) => d.xmlns = iso_20022_fxtr::fxtr_008_001_06::namespace(),
+            Self::fxtr_013_001_03(d) => d.xmlns = iso_20022_fxtr::fxtr_013_001_03::namespace(),
+            Self::fxtr_014_001_04(d) => d.xmlns = iso_20022_fxtr::fxtr_014_001_04::namespace(),
+            Self::fxtr_015_001_04(d) => d.xmlns = iso_20022_fxtr::fxtr_015_001_04::namespace(),
+            Self::fxtr_016_001_04(d) => d.xmlns = iso_20022_fxtr::fxtr_016_001_04::namespace(),
+            Self::fxtr_017_001_04(d) => d.xmlns = iso_20022_fxtr::fxtr_017_001_04::namespace(),
+            Self::fxtr_030_001_04(d) => d.xmlns = iso_20022_fxtr::fxtr_030_001_04::namespace(),
+            Self::fxtr_031_001_01(d) => d.xmlns = iso_20022_fxtr::fxtr_031_001_01::namespace(),
+            Self::fxtr_032_001_01(d) => d.xmlns = iso_20022_fxtr::fxtr_032_001_01::namespace(),
+            Self::fxtr_033_001_01(d) => d.xmlns = iso_20022_fxtr::fxtr_033_001_01::namespace(),
+            Self::fxtr_034_001_01(d) => d.xmlns = iso_20022_fxtr::fxtr_034_001_01::namespace(),
+            Self::fxtr_035_001_01(d) => d.xmlns = iso_20022_fxtr::fxtr_035_001_01::namespace(),
+            Self::fxtr_036_001_01(d) => d.xmlns = iso_20022_fxtr::fxtr_036_001_01::namespace(),
+            Self::fxtr_037_001_01(d) => d.xmlns = iso_20022_fxtr::fxtr_037_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -67,6 +97,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

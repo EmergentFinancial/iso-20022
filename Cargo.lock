@@ -39,6 +39,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4c7f02d4ea65f2c1853089ffd8d2787bdbc63de2f0d29dedbcf8ccdfa0ccd4cf"
 
 [[package]]
+name = "base64"
+version = "0.21.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
+
+[[package]]
 name = "base64ct"
 version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -366,6 +372,15 @@ dependencies = [
  "ff",
  "rand_core",
  "subtle",
+]
+
+[[package]]
+name = "hex"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
+dependencies = [
+ "serde",
 ]
 
 [[package]]
@@ -719,22 +734,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "iso-20022-dsig"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0d5262e9af209ffd23d3024beeede66f28deedeeebceb71453404bd645cfa9a5"
-dependencies = [
- "chrono",
- "derive_builder 0.12.0",
- "lazy_static",
- "regex",
- "serde",
- "serde-xml-rs",
- "validator",
- "xml-rs",
-]
-
-[[package]]
 name = "iso-20022-fxtr"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -765,26 +764,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "iso-20022-head"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d773dae8f1873743fb5edc86aa4e285bcab6045ba7d6ccfa203f02ffb90a512c"
-dependencies = [
- "chrono",
- "derive_builder 0.12.0",
- "lazy_static",
- "regex",
- "serde",
- "serde-xml-rs",
- "validator",
- "xml-rs",
-]
-
-[[package]]
 name = "iso-20022-nvlp"
 version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "91dd6f6fb2977e5dc97cf2d08ab2468d5e430b98925be5d9a50148e7355252a3"
 dependencies = [
  "chrono",
  "derive_builder 0.12.0",
@@ -864,10 +845,14 @@ dependencies = [
 name = "iso-20022-sdk"
 version = "0.1.1"
 dependencies = [
+ "base64",
  "bincode",
  "chrono",
+ "der",
  "derive_builder 0.13.0",
+ "elliptic-curve",
  "format_xml",
+ "hex",
  "iso-20022-acmt",
  "iso-20022-admi",
  "iso-20022-auth",
@@ -885,9 +870,9 @@ dependencies = [
  "iso-20022-catm",
  "iso-20022-catp",
  "iso-20022-colr",
- "iso-20022-dsig 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "iso-20022-dsig",
  "iso-20022-fxtr",
- "iso-20022-head 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "iso-20022-head",
  "iso-20022-nvlp",
  "iso-20022-pacs",
  "iso-20022-pain",
@@ -904,13 +889,16 @@ dependencies = [
  "lazy_static",
  "p256",
  "quick-xml",
+ "rand_core",
  "regex",
  "serde",
  "serde_json",
+ "sha2",
  "signature",
  "sxd-document",
  "sxd-xpath",
  "thiserror",
+ "uuid",
  "validator",
  "xml-rs",
 ]
@@ -999,8 +987,8 @@ dependencies = [
 name = "iso-20022-tests"
 version = "0.1.0"
 dependencies = [
- "iso-20022-dsig 0.1.1",
- "iso-20022-head 0.1.0",
+ "iso-20022-dsig",
+ "iso-20022-head",
 ]
 
 [[package]]
@@ -1489,6 +1477,16 @@ dependencies = [
  "form_urlencoded",
  "idna 0.5.0",
  "percent-encoding",
+]
+
+[[package]]
+name = "uuid"
+version = "1.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f00cc9702ca12d3c81455259621e676d0f7251cec66a21e98fe2e9a37db93b2a"
+dependencies = [
+ "getrandom",
+ "serde",
 ]
 
 [[package]]

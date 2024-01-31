@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_tsin::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // tsin
     tsin_001_001_01(iso_20022_tsin::tsin_001_001_01::Document),
@@ -36,6 +37,33 @@ pub enum Document {
     tsin_013_001_01(iso_20022_tsin::tsin_013_001_01::Document<Dmkr, Dmkr, Dmkr, Dmkr>),
     #[default]
     Unknown,
+}
+
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::tsin_001_001_01(d) => d.xmlns = iso_20022_tsin::tsin_001_001_01::namespace(),
+            Self::tsin_002_001_01(d) => d.xmlns = iso_20022_tsin::tsin_002_001_01::namespace(),
+            Self::tsin_003_001_01(d) => d.xmlns = iso_20022_tsin::tsin_003_001_01::namespace(),
+            Self::tsin_005_001_01(d) => d.xmlns = iso_20022_tsin::tsin_005_001_01::namespace(),
+            Self::tsin_006_001_01(d) => d.xmlns = iso_20022_tsin::tsin_006_001_01::namespace(),
+            Self::tsin_007_001_01(d) => d.xmlns = iso_20022_tsin::tsin_007_001_01::namespace(),
+            Self::tsin_008_001_01(d) => d.xmlns = iso_20022_tsin::tsin_008_001_01::namespace(),
+            Self::tsin_009_001_01(d) => d.xmlns = iso_20022_tsin::tsin_009_001_01::namespace(),
+            Self::tsin_010_001_01(d) => d.xmlns = iso_20022_tsin::tsin_010_001_01::namespace(),
+            Self::tsin_011_001_01(d) => d.xmlns = iso_20022_tsin::tsin_011_001_01::namespace(),
+            Self::tsin_012_001_01(d) => d.xmlns = iso_20022_tsin::tsin_012_001_01::namespace(),
+            Self::tsin_013_001_01(d) => d.xmlns = iso_20022_tsin::tsin_013_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
 }
 
 impl TryFrom<&str> for Document {
@@ -63,6 +91,6 @@ impl TryFrom<&str> for Document {
             }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }
