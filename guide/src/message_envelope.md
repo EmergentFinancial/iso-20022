@@ -11,7 +11,7 @@ use iso_20022_sdk::prelude::*;
 
 
 // The `builder` method will return `Message` instance
-// after setting default valudes, e.g. envelope namespace
+// after setting default values, e.g. envelope namespace
 //
 // The initial `Doc` type of the `Message` can be elided
 // using `::<_>` turbofish syntax. The compiler will 
