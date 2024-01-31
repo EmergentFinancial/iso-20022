@@ -2426,7 +2426,11 @@ pub struct RemittanceAmount3 {
     #[serde(rename = "DuePyblAmt", skip_serializing_if = "Option::is_none")]
     pub due_pybl_amt: Option<ActiveOrHistoricCurrencyAndAmount>,
     #[validate(length(min = 0,))]
-    #[serde(rename = "DscntApldAmt", default)]
+    #[serde(
+        rename = "DscntApldAmt",
+        default,
+        skip_serializing_if = "Vec::is_empty"
+    )]
     pub dscnt_apld_amt: Vec<DiscountAmountAndType1>,
     #[serde(rename = "CdtNoteAmt", skip_serializing_if = "Option::is_none")]
     pub cdt_note_amt: Option<ActiveOrHistoricCurrencyAndAmount>,
@@ -2434,7 +2438,11 @@ pub struct RemittanceAmount3 {
     #[serde(rename = "TaxAmt", default)]
     pub tax_amt: Vec<TaxAmountAndType1>,
     #[validate(length(min = 0,))]
-    #[serde(rename = "AdjstmntAmtAndRsn", default)]
+    #[serde(
+        rename = "AdjstmntAmtAndRsn",
+        default,
+        skip_serializing_if = "Vec::is_empty"
+    )]
     pub adjstmnt_amt_and_rsn: Vec<DocumentAdjustment1>,
     #[serde(rename = "RmtdAmt", skip_serializing_if = "Option::is_none")]
     pub rmtd_amt: Option<ActiveOrHistoricCurrencyAndAmount>,
@@ -2775,10 +2783,18 @@ pub struct CreditTransferTransaction50<
     #[serde(rename = "UltmtCdtr", skip_serializing_if = "Option::is_none")]
     pub ultmt_cdtr: Option<PartyIdentification135>,
     #[validate(length(min = 0,))]
-    #[serde(rename = "InstrForCdtrAgt", default)]
+    #[serde(
+        rename = "InstrForCdtrAgt",
+        default,
+        skip_serializing_if = "Vec::is_empty"
+    )]
     pub instr_for_cdtr_agt: Vec<InstructionForCreditorAgent3>,
     #[validate(length(min = 0,))]
-    #[serde(rename = "InstrForNxtAgt", default)]
+    #[serde(
+        rename = "InstrForNxtAgt",
+        default,
+        skip_serializing_if = "Vec::is_empty"
+    )]
     pub instr_for_nxt_agt: Vec<InstructionForNextAgent1>,
     #[serde(rename = "Purp", skip_serializing_if = "Option::is_none")]
     pub purp: Option<Purpose2Choice>,
@@ -2845,7 +2861,11 @@ pub struct RemittanceAmount2 {
     #[serde(rename = "DuePyblAmt", skip_serializing_if = "Option::is_none")]
     pub due_pybl_amt: Option<ActiveOrHistoricCurrencyAndAmount>,
     #[validate(length(min = 0,))]
-    #[serde(rename = "DscntApldAmt", default)]
+    #[serde(
+        rename = "DscntApldAmt",
+        default,
+        skip_serializing_if = "Vec::is_empty"
+    )]
     pub dscnt_apld_amt: Vec<DiscountAmountAndType1>,
     #[serde(rename = "CdtNoteAmt", skip_serializing_if = "Option::is_none")]
     pub cdt_note_amt: Option<ActiveOrHistoricCurrencyAndAmount>,
@@ -2853,7 +2873,11 @@ pub struct RemittanceAmount2 {
     #[serde(rename = "TaxAmt", default)]
     pub tax_amt: Vec<TaxAmountAndType1>,
     #[validate(length(min = 0,))]
-    #[serde(rename = "AdjstmntAmtAndRsn", default)]
+    #[serde(
+        rename = "AdjstmntAmtAndRsn",
+        default,
+        skip_serializing_if = "Vec::is_empty"
+    )]
     pub adjstmnt_amt_and_rsn: Vec<DocumentAdjustment1>,
     #[serde(rename = "RmtdAmt", skip_serializing_if = "Option::is_none")]
     pub rmtd_amt: Option<ActiveOrHistoricCurrencyAndAmount>,
