@@ -14,12 +14,11 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// 
+//
 // See https://www.ietf.org/rfc/rfc4050.txt for more information
 // on ECDSA for XML Digital Signatures
 // Copyright (C) The Internet Society (2005).
-// Blake-Wilson, et al. 
-
+// Blake-Wilson, et al.
 
 use validator::Validate;
 
@@ -169,7 +168,7 @@ pub struct BasePointParamsType<
 pub struct FieldElemType<
     A: std::fmt::Debug + Default + Clone + PartialEq + ::serde::Serialize + ::validator::Validate,
 > {
-    #[serde(rename = "$value")]
+    #[serde(flatten)]
     pub value: A,
 }
 #[derive(
@@ -432,5 +431,6 @@ pub struct EcPointType<
 )]
 pub struct HexBinary {
     #[validate(regex = "HEX_BINARY_REGEX")]
+    #[serde(rename = "$text")]
     pub value: String,
 }

@@ -5,5 +5,5 @@
   - [Business Header](./business_header.md)
     - [Signature](./signature.md)
   - [Document](./document.md)
-- [XML Serialization / Deserialization](./xml.md)
+- [Serialization / Deserialization](./serialization.md)
 - [Message Validation](./validation.md)

@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_secl::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // secl
     secl_001_001_03(iso_20022_secl::secl_001_001_03::Document<Dmkr>),
@@ -36,8 +37,34 @@ pub enum Document {
     Unknown,
 }
 
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::secl_001_001_03(d) => d.xmlns = iso_20022_secl::secl_001_001_03::namespace(),
+            Self::secl_002_001_03(d) => d.xmlns = iso_20022_secl::secl_002_001_03::namespace(),
+            Self::secl_003_001_03(d) => d.xmlns = iso_20022_secl::secl_003_001_03::namespace(),
+            Self::secl_004_001_03(d) => d.xmlns = iso_20022_secl::secl_004_001_03::namespace(),
+            Self::secl_005_001_02(d) => d.xmlns = iso_20022_secl::secl_005_001_02::namespace(),
+            Self::secl_006_001_02(d) => d.xmlns = iso_20022_secl::secl_006_001_02::namespace(),
+            Self::secl_007_001_03(d) => d.xmlns = iso_20022_secl::secl_007_001_03::namespace(),
+            Self::secl_008_001_03(d) => d.xmlns = iso_20022_secl::secl_008_001_03::namespace(),
+            Self::secl_009_001_03(d) => d.xmlns = iso_20022_secl::secl_009_001_03::namespace(),
+            Self::secl_010_001_03(d) => d.xmlns = iso_20022_secl::secl_010_001_03::namespace(),
+            #[default]
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
+}
+
 impl TryFrom<&str> for Document {
-    type Error = String;
+    type Error = crate::message::Error;
 
     fn try_from(s: &str) -> Result<Self, Self::Error> {
         let doc = match s {
@@ -52,9 +79,13 @@ impl TryFrom<&str> for Document {
             "secl.008.001.03" => Document::secl_008_001_03(Default::default()),
             "secl.009.001.03" => Document::secl_009_001_03(Default::default()),
             "secl.010.001.03" => Document::secl_010_001_03(Default::default()),
-            _ => return Err(s.to_string()),
+            _ => {
+                return Err(crate::message::Error::UnsupportedDocumentType(
+                    s.to_string(),
+                ))
+            }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

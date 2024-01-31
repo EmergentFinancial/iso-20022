@@ -22,21 +22,54 @@ pub use iso_20022_pacs::*;
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
 pub enum Document {
     // pacs
+    #[serde(rename = "Document")]
     pacs_002_001_12(iso_20022_pacs::pacs_002_001_12::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_003_001_09(iso_20022_pacs::pacs_003_001_09::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_004_001_11(iso_20022_pacs::pacs_004_001_11::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_007_001_11(iso_20022_pacs::pacs_007_001_11::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_008_001_10(iso_20022_pacs::pacs_008_001_10::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_009_001_10(iso_20022_pacs::pacs_009_001_10::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_010_001_05(iso_20022_pacs::pacs_010_001_05::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_028_001_05(iso_20022_pacs::pacs_028_001_05::Document<Dmkr, Dmkr>),
+    #[serde(rename = "Document")]
     pacs_029_001_01(iso_20022_pacs::pacs_029_001_01::Document<Dmkr>),
     #[default]
     Unknown,
 }
 
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::pacs_002_001_12(d) => d.xmlns = iso_20022_pacs::pacs_002_001_12::namespace(),
+            Self::pacs_003_001_09(d) => d.xmlns = iso_20022_pacs::pacs_003_001_09::namespace(),
+            Self::pacs_004_001_11(d) => d.xmlns = iso_20022_pacs::pacs_004_001_11::namespace(),
+            Self::pacs_007_001_11(d) => d.xmlns = iso_20022_pacs::pacs_007_001_11::namespace(),
+            Self::pacs_008_001_10(d) => d.xmlns = iso_20022_pacs::pacs_008_001_10::namespace(),
+            Self::pacs_009_001_10(d) => d.xmlns = iso_20022_pacs::pacs_009_001_10::namespace(),
+            Self::pacs_010_001_05(d) => d.xmlns = iso_20022_pacs::pacs_010_001_05::namespace(),
+            Self::pacs_028_001_05(d) => d.xmlns = iso_20022_pacs::pacs_028_001_05::namespace(),
+            Self::pacs_029_001_01(d) => d.xmlns = iso_20022_pacs::pacs_029_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
+}
+
 impl TryFrom<&str> for Document {
-    type Error = String;
+    type Error = crate::message::Error;
 
     fn try_from(s: &str) -> Result<Self, Self::Error> {
         let doc = match s {
@@ -50,9 +83,13 @@ impl TryFrom<&str> for Document {
             "pacs.010.001.05" => Document::pacs_010_001_05(Default::default()),
             "pacs.028.001.05" => Document::pacs_028_001_05(Default::default()),
             "pacs.029.001.01" => Document::pacs_029_001_01(Default::default()),
-            _ => return Err(s.to_string()),
+            _ => {
+                return Err(crate::message::Error::UnsupportedDocumentType(
+                    s.to_string(),
+                ))
+            }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_tsin::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // tsin
     tsin_001_001_01(iso_20022_tsin::tsin_001_001_01::Document),
@@ -38,8 +39,35 @@ pub enum Document {
     Unknown,
 }
 
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::tsin_001_001_01(d) => d.xmlns = iso_20022_tsin::tsin_001_001_01::namespace(),
+            Self::tsin_002_001_01(d) => d.xmlns = iso_20022_tsin::tsin_002_001_01::namespace(),
+            Self::tsin_003_001_01(d) => d.xmlns = iso_20022_tsin::tsin_003_001_01::namespace(),
+            Self::tsin_005_001_01(d) => d.xmlns = iso_20022_tsin::tsin_005_001_01::namespace(),
+            Self::tsin_006_001_01(d) => d.xmlns = iso_20022_tsin::tsin_006_001_01::namespace(),
+            Self::tsin_007_001_01(d) => d.xmlns = iso_20022_tsin::tsin_007_001_01::namespace(),
+            Self::tsin_008_001_01(d) => d.xmlns = iso_20022_tsin::tsin_008_001_01::namespace(),
+            Self::tsin_009_001_01(d) => d.xmlns = iso_20022_tsin::tsin_009_001_01::namespace(),
+            Self::tsin_010_001_01(d) => d.xmlns = iso_20022_tsin::tsin_010_001_01::namespace(),
+            Self::tsin_011_001_01(d) => d.xmlns = iso_20022_tsin::tsin_011_001_01::namespace(),
+            Self::tsin_012_001_01(d) => d.xmlns = iso_20022_tsin::tsin_012_001_01::namespace(),
+            Self::tsin_013_001_01(d) => d.xmlns = iso_20022_tsin::tsin_013_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
+}
+
 impl TryFrom<&str> for Document {
-    type Error = String;
+    type Error = crate::message::Error;
 
     fn try_from(s: &str) -> Result<Self, Self::Error> {
         let doc = match s {
@@ -56,9 +84,13 @@ impl TryFrom<&str> for Document {
             "tsin.011.001.01" => Document::tsin_011_001_01(Default::default()),
             "tsin.012.001.01" => Document::tsin_012_001_01(Default::default()),
             "tsin.013.001.01" => Document::tsin_013_001_01(Default::default()),
-            _ => return Err(s.to_string()),
+            _ => {
+                return Err(crate::message::Error::UnsupportedDocumentType(
+                    s.to_string(),
+                ))
+            }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

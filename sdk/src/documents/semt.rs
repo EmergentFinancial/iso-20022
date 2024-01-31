@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_semt::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // semt
     semt_001_001_03(iso_20022_semt::semt_001_001_03::Document),
@@ -100,8 +101,55 @@ pub enum Document {
     Unknown,
 }
 
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::semt_001_001_03(d) => d.xmlns = iso_20022_semt::semt_001_001_03::namespace(),
+            Self::semt_002_001_11(d) => d.xmlns = iso_20022_semt::semt_002_001_11::namespace(),
+            Self::semt_002_002_11(d) => d.xmlns = iso_20022_semt::semt_002_002_11::namespace(),
+            Self::semt_003_001_11(d) => d.xmlns = iso_20022_semt::semt_003_001_11::namespace(),
+            Self::semt_003_002_11(d) => d.xmlns = iso_20022_semt::semt_003_002_11::namespace(),
+            Self::semt_004_001_02(d) => d.xmlns = iso_20022_semt::semt_004_001_02::namespace(),
+            Self::semt_005_001_02(d) => d.xmlns = iso_20022_semt::semt_005_001_02::namespace(),
+            Self::semt_006_001_03(d) => d.xmlns = iso_20022_semt::semt_006_001_03::namespace(),
+            Self::semt_007_001_03(d) => d.xmlns = iso_20022_semt::semt_007_001_03::namespace(),
+            Self::semt_013_001_06(d) => d.xmlns = iso_20022_semt::semt_013_001_06::namespace(),
+            Self::semt_013_002_06(d) => d.xmlns = iso_20022_semt::semt_013_002_06::namespace(),
+            Self::semt_014_001_07(d) => d.xmlns = iso_20022_semt::semt_014_001_07::namespace(),
+            Self::semt_014_002_07(d) => d.xmlns = iso_20022_semt::semt_014_002_07::namespace(),
+            Self::semt_015_001_09(d) => d.xmlns = iso_20022_semt::semt_015_001_09::namespace(),
+            Self::semt_015_002_09(d) => d.xmlns = iso_20022_semt::semt_015_002_09::namespace(),
+            Self::semt_016_001_09(d) => d.xmlns = iso_20022_semt::semt_016_001_09::namespace(),
+            Self::semt_016_002_09(d) => d.xmlns = iso_20022_semt::semt_016_002_09::namespace(),
+            Self::semt_017_001_12(d) => d.xmlns = iso_20022_semt::semt_017_001_12::namespace(),
+            Self::semt_017_002_12(d) => d.xmlns = iso_20022_semt::semt_017_002_12::namespace(),
+            Self::semt_018_001_13(d) => d.xmlns = iso_20022_semt::semt_018_001_13::namespace(),
+            Self::semt_018_002_13(d) => d.xmlns = iso_20022_semt::semt_018_002_13::namespace(),
+            Self::semt_019_001_10(d) => d.xmlns = iso_20022_semt::semt_019_001_10::namespace(),
+            Self::semt_019_002_10(d) => d.xmlns = iso_20022_semt::semt_019_002_10::namespace(),
+            Self::semt_020_001_07(d) => d.xmlns = iso_20022_semt::semt_020_001_07::namespace(),
+            Self::semt_020_002_07(d) => d.xmlns = iso_20022_semt::semt_020_002_07::namespace(),
+            Self::semt_021_001_08(d) => d.xmlns = iso_20022_semt::semt_021_001_08::namespace(),
+            Self::semt_021_002_08(d) => d.xmlns = iso_20022_semt::semt_021_002_08::namespace(),
+            Self::semt_022_001_05(d) => d.xmlns = iso_20022_semt::semt_022_001_05::namespace(),
+            Self::semt_022_002_05(d) => d.xmlns = iso_20022_semt::semt_022_002_05::namespace(),
+            Self::semt_023_001_01(d) => d.xmlns = iso_20022_semt::semt_023_001_01::namespace(),
+            Self::semt_041_001_02(d) => d.xmlns = iso_20022_semt::semt_041_001_02::namespace(),
+            Self::semt_042_001_01(d) => d.xmlns = iso_20022_semt::semt_042_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
+}
+
 impl TryFrom<&str> for Document {
-    type Error = String;
+    type Error = crate::message::Error;
 
     fn try_from(s: &str) -> Result<Self, Self::Error> {
         let doc = match s {
@@ -138,9 +186,13 @@ impl TryFrom<&str> for Document {
             "semt.023.001.01" => Document::semt_023_001_01(Default::default()),
             "semt.041.001.02" => Document::semt_041_001_02(Default::default()),
             "semt.042.001.01" => Document::semt_042_001_01(Default::default()),
-            _ => return Err(s.to_string()),
+            _ => {
+                return Err(crate::message::Error::UnsupportedDocumentType(
+                    s.to_string(),
+                ))
+            }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

@@ -20,6 +20,7 @@ use super::Dmkr;
 pub use iso_20022_reda::*;
 
 #[derive(Debug, Default, Clone, PartialEq, ::serde::Serialize, ::serde::Deserialize)]
+#[serde(rename = "Document")]
 pub enum Document {
     // reda
     reda_001_001_04(iso_20022_reda::reda_001_001_04::Document),
@@ -68,8 +69,65 @@ pub enum Document {
     Unknown,
 }
 
+impl Document {
+    /// Set the namespace of the document
+    pub fn set_namespace(self) -> Self {
+        let mut doc = self;
+
+        match &mut doc {
+            Self::reda_001_001_04(d) => d.xmlns = iso_20022_reda::reda_001_001_04::namespace(),
+            Self::reda_002_001_04(d) => d.xmlns = iso_20022_reda::reda_002_001_04::namespace(),
+            Self::reda_004_001_06(d) => d.xmlns = iso_20022_reda::reda_004_001_06::namespace(),
+            Self::reda_005_001_03(d) => d.xmlns = iso_20022_reda::reda_005_001_03::namespace(),
+            Self::reda_006_001_01(d) => d.xmlns = iso_20022_reda::reda_006_001_01::namespace(),
+            Self::reda_007_001_01(d) => d.xmlns = iso_20022_reda::reda_007_001_01::namespace(),
+            Self::reda_008_001_01(d) => d.xmlns = iso_20022_reda::reda_008_001_01::namespace(),
+            Self::reda_009_001_01(d) => d.xmlns = iso_20022_reda::reda_009_001_01::namespace(),
+            Self::reda_010_001_01(d) => d.xmlns = iso_20022_reda::reda_010_001_01::namespace(),
+            Self::reda_012_001_01(d) => d.xmlns = iso_20022_reda::reda_012_001_01::namespace(),
+            Self::reda_013_001_01(d) => d.xmlns = iso_20022_reda::reda_013_001_01::namespace(),
+            Self::reda_014_001_01(d) => d.xmlns = iso_20022_reda::reda_014_001_01::namespace(),
+            Self::reda_015_001_01(d) => d.xmlns = iso_20022_reda::reda_015_001_01::namespace(),
+            Self::reda_016_001_01(d) => d.xmlns = iso_20022_reda::reda_016_001_01::namespace(),
+            Self::reda_017_001_01(d) => d.xmlns = iso_20022_reda::reda_017_001_01::namespace(),
+            Self::reda_018_001_01(d) => d.xmlns = iso_20022_reda::reda_018_001_01::namespace(),
+            Self::reda_019_001_01(d) => d.xmlns = iso_20022_reda::reda_019_001_01::namespace(),
+            Self::reda_020_001_01(d) => d.xmlns = iso_20022_reda::reda_020_001_01::namespace(),
+            Self::reda_021_001_01(d) => d.xmlns = iso_20022_reda::reda_021_001_01::namespace(),
+            Self::reda_022_001_01(d) => d.xmlns = iso_20022_reda::reda_022_001_01::namespace(),
+            Self::reda_023_001_01(d) => d.xmlns = iso_20022_reda::reda_023_001_01::namespace(),
+            Self::reda_029_001_01(d) => d.xmlns = iso_20022_reda::reda_029_001_01::namespace(),
+            Self::reda_030_001_01(d) => d.xmlns = iso_20022_reda::reda_030_001_01::namespace(),
+            Self::reda_031_001_01(d) => d.xmlns = iso_20022_reda::reda_031_001_01::namespace(),
+            Self::reda_032_001_01(d) => d.xmlns = iso_20022_reda::reda_032_001_01::namespace(),
+            Self::reda_033_001_01(d) => d.xmlns = iso_20022_reda::reda_033_001_01::namespace(),
+            Self::reda_034_001_01(d) => d.xmlns = iso_20022_reda::reda_034_001_01::namespace(),
+            Self::reda_035_001_01(d) => d.xmlns = iso_20022_reda::reda_035_001_01::namespace(),
+            Self::reda_036_001_01(d) => d.xmlns = iso_20022_reda::reda_036_001_01::namespace(),
+            Self::reda_037_001_01(d) => d.xmlns = iso_20022_reda::reda_037_001_01::namespace(),
+            Self::reda_041_001_01(d) => d.xmlns = iso_20022_reda::reda_041_001_01::namespace(),
+            Self::reda_042_001_01(d) => d.xmlns = iso_20022_reda::reda_042_001_01::namespace(),
+            Self::reda_043_001_01(d) => d.xmlns = iso_20022_reda::reda_043_001_01::namespace(),
+            Self::reda_056_001_01(d) => d.xmlns = iso_20022_reda::reda_056_001_01::namespace(),
+            Self::reda_057_001_01(d) => d.xmlns = iso_20022_reda::reda_057_001_01::namespace(),
+            Self::reda_058_001_01(d) => d.xmlns = iso_20022_reda::reda_058_001_01::namespace(),
+            Self::reda_059_001_01(d) => d.xmlns = iso_20022_reda::reda_059_001_01::namespace(),
+            Self::reda_060_001_01(d) => d.xmlns = iso_20022_reda::reda_060_001_01::namespace(),
+            Self::reda_061_001_01(d) => d.xmlns = iso_20022_reda::reda_061_001_01::namespace(),
+            Self::reda_064_001_01(d) => d.xmlns = iso_20022_reda::reda_064_001_01::namespace(),
+            Self::reda_065_001_01(d) => d.xmlns = iso_20022_reda::reda_065_001_01::namespace(),
+            Self::reda_074_001_01(d) => d.xmlns = iso_20022_reda::reda_074_001_01::namespace(),
+            _ => {
+                unimplemented!()
+            }
+        };
+
+        doc
+    }
+}
+
 impl TryFrom<&str> for Document {
-    type Error = String;
+    type Error = crate::message::Error;
 
     fn try_from(s: &str) -> Result<Self, Self::Error> {
         let doc = match s {
@@ -116,9 +174,13 @@ impl TryFrom<&str> for Document {
             "reda.064.001.01" => Document::reda_064_001_01(Default::default()),
             "reda.065.001.01" => Document::reda_065_001_01(Default::default()),
             "reda.074.001.01" => Document::reda_074_001_01(Default::default()),
-            _ => return Err(s.to_string()),
+            _ => {
+                return Err(crate::message::Error::UnsupportedDocumentType(
+                    s.to_string(),
+                ))
+            }
         };
 
-        Ok(doc)
+        Ok(doc.set_namespace())
     }
 }

@@ -1,0 +1,76 @@
+<?xml-model href="../../schema/nvlp/nvlp.001.001.01.xsd"?>
+<BizMsgEnvlp xmlns="urn:iso:std:iso:20022:tech:xsd:nvlp.001.001.01">
+    <Hdr>
+        <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.03">
+            <Fr>
+                <OrgId>
+                    <Id>
+                        <OrgId>
+                            <Othr>
+                                <Id>b3033215-3a30-48ee-b194-5c02e08a5fb3</Id>
+                            </Othr>
+                        </OrgId>
+                    </Id>
+                </OrgId>
+            </Fr>
+            <To>
+                <OrgId>
+                    <Id>
+                        <OrgId>
+                            <Othr>
+                                <Id>b3033215-3a30-48ee-b194-5c02e08a5fb3</Id>
+                            </Othr>
+                        </OrgId>
+                    </Id>
+                </OrgId>
+            </To>
+            <BizMsgIdr>Document</BizMsgIdr>
+            <MsgDefIdr>pacs.008.001.10</MsgDefIdr>
+            <CreDt>2023-05-27T16:24:15.503530796Z</CreDt>
+            <Sgntr Id=""
+                xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <SignedInfo Id="a62c5475-8326-4e24-8c2e-b36dd867f45e">
+                    <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                    <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256">
+                        <HMACOutputLength>32</HMACOutputLength>
+                        <value xmlns="http://www.w3.org/2001/04/xmldsig-more#">
+                            <DomainParameters>
+                                <NamedCurve URN="1.2.840.10045.3.1.7"/>
+                            </DomainParameters>
+                            <PublicKey>
+                                <X>83b3619ebffade31ecb70d3078852796397d62316698fa2f0eb6b6563914a463</X>
+                                <Y>960c58ea5b373fa661151289ce403193a57d6bcd83ccb90331d64cb08ffb329b</Y>
+                            </PublicKey>
+                        </value>
+                    </SignatureMethod>
+                    <Reference URI="/Document" Type="application/xml" Id="a62c5475-8326-4e24-8c2e-b36dd867f45e">
+                        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+                        <DigestValue>FS2RhkAo6v5KdCA98Oj7VTLKR72ktVPTKahtOAiltPI=</DigestValue>
+                    </Reference>
+                </SignedInfo>
+                <SignatureValue Id="">NaN2JCs+Tia0nXelIWcE4AosbOdNLVaEHUvY87J7P2Z5cvTUtmeGUfYkMSf3qC3evCApyjGRuOhhHC4+9uEGlQ==</SignatureValue>
+                <KeyInfo Id="">
+                    <value>
+                        <X509Data>
+                            <X509Certificate>MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEg7Nhnr/63jHstw0weIUnljl9YjFmmPovDra2VjkUpGOWDFjqWzc/pmEVEonOQDGTpX1rzYPMuQMx1kywj/symw==</X509Certificate>
+                        </X509Data>
+                    </value>
+                </KeyInfo>
+            </Sgntr>
+        </AppHdr>
+    </Hdr>
+    <Doc>
+        <Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10">
+            <FIToFICstmrCdtTrf>
+                <GrpHdr>
+                    <MsgId/>
+                    <CreDtTm>1970-01-01T00:00:00Z</CreDtTm>
+                    <NbOfTxs/>
+                    <SttlmInf>
+                        <Unknown/>
+                    </SttlmInf>
+                </GrpHdr>
+            </FIToFICstmrCdtTrf>
+        </Document>
+    </Doc>
+</BizMsgEnvlp>

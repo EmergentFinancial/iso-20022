@@ -2,8 +2,8 @@
 <BizMsgEnvlp xmlns="urn:iso:std:iso:20022:tech:xsd:nvlp.001.001.01">
     <Hdr>
         <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.03">
-            <Fr />
-            <To />
+            <Fr>Sender</Fr>
+            <To>Receiver</To>
             <BizMsgIdr>12345</BizMsgIdr>
             <MsgDefIdr>12345</MsgDefIdr>
             <CreDt>2023-04-18T17:02:14.745635Z</CreDt>
